@@ -11,13 +11,9 @@ installation
 ------------
 
 ```bash
-cd ~ && git clone git@github.com:qbbr/dzenbar.git sft/dzenbar
-```
-
-create config:
-
-```bash
-cd ~/sft/dzenbar/
+cd ~/sft/
+git clone git@github.com:qbbr/dzenbar.git
+cd dzenbar/
 cp .dzenbarrc.dist .dzenbarrc
 ```
 
