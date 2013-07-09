@@ -1,0 +1,34 @@
+#!/bin/bash
+# .dzenbarrc config for dzenbar
+
+# what show in dzen panel ?
+SHOW_CPU=true
+SHOW_TEMP=true
+SHOW_MEM=true
+SHOW_FS=true
+SHOW_NET=true
+SHOW_WEATHER=true
+SHOW_MAIL=true
+SHOW_VOLUME=true
+SHOW_MPD=false
+
+declare -A TEMP
+TEMP=(['CPU:']=10 ['MB:']=11)
+FS=('rootfs' '/media/dwnlds' '/media/strg1' '/media/strg2')
+INTERFACE='eth0'
+MIXER='Master'
+MAILDIR="$HOME/Mail/GMail/INBOX/new/"
+
+SLEEP=1
+ICON_PATH='xbm'
+ICON_COLOR='#224488'
+BG='#101010'
+FG='#ffffff'
+NORMAL_COLOR='^fg()'
+GRAY_COLOR='^fg(#555555)'
+CLEAR_COLOR='^fg()'
+X=0
+Y=1060
+HEIGHT=20
+WIDTH=1920
+FONT='-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*'
