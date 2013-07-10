@@ -20,7 +20,7 @@ cp .dzenbarrc.dist .dzenbarrc
 add to .xinitrc
 
 ```bash
-cd ~/sft/dzenbar/ && ./dzenbar &
+~/sft/dzenbar/dzenbar &
 ```
 
 overview
