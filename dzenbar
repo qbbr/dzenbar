@@ -186,6 +186,12 @@ getMail() {
 	fi
 }
 
+getBattery() {
+	PERCENT=`acpi -b | cut -d ' ' -f 4 | tr -d [,]`
+	icon 'battery'
+	echo -n $PERCENT
+}
+
 getVolume() {
 	VOLUME=`amixer get Master | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/'`
 	VOLUME_ON=`amixer get $MIXER | sed -ne 's/.*\ \[\([^]]*\).*/\1/p'`
@@ -218,6 +224,7 @@ while :; do
 	if $SHOW_NET; then getNet; fi
 	if $SHOW_WEATHER; then getWeather; fi
 	if $SHOW_MAIL; then getMail; fi
+	if $SHOW_BATTERY; then getBattery; fi
 	if $SHOW_VOLUME; then getVolume; fi
 	if $SHOW_MPD; then getMpd; fi
 

@@ -9,6 +9,7 @@ SHOW_FS=true
 SHOW_NET=true
 SHOW_WEATHER=true
 SHOW_MAIL=true
+SHOW_BATTERY=false
 SHOW_VOLUME=true
 SHOW_MPD=false
 
