@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd "$( dirname "${BASH_SOURCE[0]}" )"
+
 . .dzenbarrc
 
 rm -f $PIPE
@@ -14,4 +16,4 @@ tail -f $PIPE | dmplex | dzen2 -x $X -y $Y -w $WIDTH -h $HEIGHT -bg $BG -fg $FG 
 #./mail 7 &
 ./volume 8 &
 #./battery 9 &
-./mpd 10 &
+#./mpd 10 &
