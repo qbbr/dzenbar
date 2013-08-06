@@ -7,12 +7,13 @@ while true; do
 	_CACHE=`df -h`
 
 	COUNT=${#FILESYSTEMS[@]}
+	i=0
 	let "COUNT = $COUNT - 1"
-	for (( i=0; i <= $COUNT; i++ )); do
-		OUTPUT=$OUTPUT$(text "`basename ${FILESYSTEMS[$i]}`: ")
-		FS_DFC=`echo "$_CACHE" | grep "${FILESYSTEMS[$i]}"`
+	for key in ${!FILESYSTEMS[@]}; do
+		OUTPUT=$OUTPUT$(text $key)
+		FS_DFC=`echo "$_CACHE" | grep "${FILESYSTEMS[$key]}"`
 
-		OUTPUT=$OUTPUT"`echo "$FS_DFC" | awk '{ print $5 }'`"
+		OUTPUT="$OUTPUT `echo "$FS_DFC" | awk '{ print $5 }'`"
 		OUTPUT=$OUTPUT$(text ' (')
 		OUTPUT=$OUTPUT"`echo "$FS_DFC" | awk '{ print $4 }'`"
 		OUTPUT=$OUTPUT$(text ')')
@@ -20,6 +21,8 @@ while true; do
 		if [ "$i" != "$COUNT" ]; then
 			OUTPUT=$OUTPUT$(text ', ')
 		fi
+
+		let "i = $i + 1"
 	done
 
 	echo "$1 $(icon 'tall') $OUTPUT" > $PIPE

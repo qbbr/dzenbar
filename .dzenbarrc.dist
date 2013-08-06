@@ -1,7 +1,8 @@
 #!/bin/bash
 # .dzenbarrc config
 
-FILESYSTEMS=('rootfs' '/home') # grep of `df`
+declare -A FILESYSTEMS
+FILESYSTEMS=(['root:']='/dev/sda6' ['home:']='/sda9') # grep of `df`
 MAILDIR="$HOME/Mail/GMail/INBOX/new/"
 INTERFACE='eth0'
 declare -A SENSORS
