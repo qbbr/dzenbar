@@ -9,6 +9,11 @@ requirements
  * [lm-sensors](http://www.lm-sensors.org/)
  * [weather-util](http://fungi.yuggoth.org/weather/)
 
+how it work
+-----------
+
+![dzen2 multiplexer](https://lh3.googleusercontent.com/-Vu-kTSNaxS8/TnEzqCJ92TI/AAAAAAAAAd4/3Dh5K2GdjAo/s900/dzen2-bottom-short.png)
+
 installation
 ------------
 
