@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+while true; do
+	_CACHE='/tmp/weather.cache'
+	weather UIII -q -m > $_CACHE
+	W_TEMP=`cat $_CACHE | awk '/Temperature/ {print $2}'`
+	W_HUMIDITY=`cat $_CACHE | awk '/Humidity/ {print $3}'`
+
+	echo "$1 $(icon 'load') $(text 't:') $W_TEMP°C$(text ', h:') $W_HUMIDITY" > $PIPE
+
+	sleep 30m
+done

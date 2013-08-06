@@ -1,0 +1,27 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+SLEEP=2
+
+# here we remember the previous rx/tx counts
+RXB=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
+TXB=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
+
+while true; do
+	# get new rx/tx counts
+	RXBN=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
+	TXBN=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
+
+	# calculate the rates
+	# format the values to 4 digit fields
+	RXR=`echo "($RXBN - $RXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
+	TXR=`echo "($TXBN - $TXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
+
+	# reset old rates
+	RXB=$RXBN; TXB=$TXBN
+
+	echo "$1 $(icon 'wired') ^fg(#67b15f)^i($ICON_PATH/net_down.xbm)^fg() $RXR kB/s ^fg(#785038)^i($ICON_PATH/net_up.xbm)^fg() $TXR kB/s" > $PIPE
+
+	sleep $SLEEP
+done

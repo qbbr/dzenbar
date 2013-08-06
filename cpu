@@ -1,0 +1,58 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+STAT_BEFORE=`cat /proc/stat | head -n 5`
+
+# number of cpu cores
+CPU_CORES=`nproc`
+
+sleep 0.01
+getCoreLoadPercent() {
+	CORE=$1
+
+	BEFORE=`echo "$STAT_BEFORE" | grep "^cpu$CORE "`
+	AFTER=`echo "$STAT_AFTER" | grep "^cpu$CORE "`
+
+	# парсим колонки
+	USER0=`echo "$BEFORE" | awk '{ print $2 }'`
+	USER1=`echo "$AFTER" | awk '{ print $2 }'`
+	NICE0=`echo "$BEFORE" | awk '{ print $3 }'`
+	NICE1=`echo "$AFTER" | awk '{ print $3 }'`
+	SYST0=`echo "$BEFORE" | awk '{ print $4 }'`
+	SYST1=`echo "$AFTER" | awk '{ print $4 }'`
+	IDLE0=`echo "$BEFORE" | awk '{ print $5 }'`
+	IDLE1=`echo "$AFTER" | awk '{ print $5 }'`
+
+	# разность
+	USER=`expr $USER1 - $USER0`
+	NICE=`expr $NICE1 - $NICE0`
+	SYST=`expr $SYST1 - $SYST0`
+	IDLE=`expr $IDLE1 - $IDLE0`
+
+	# сумма разностей
+	TOTAL=`expr $USER + $NICE + $SYST + $IDLE`
+	USED=`expr $USER + $NICE + $SYST`
+
+	# средняя загрузка за интервал времени в процентах
+	echo "$USED * 100 / $TOTAL" | bc
+}
+
+while true; do
+	STAT_AFTER=`cat /proc/stat | head -n 5`
+
+	OUTPUT="$1 $(icon 'cpu') "
+
+	let "LAST = $CPU_CORES - 1"
+	for (( i=0; i < $CPU_CORES; i++ )); do
+		OUTPUT=$OUTPUT`getCoreLoadPercent $i`%
+		if [ "$i" != "$LAST" ]; then
+			OUTPUT=$OUTPUT$(text ' / ')
+		fi
+	done
+
+	echo $OUTPUT > $PIPE
+
+	STAT_BEFORE=$STAT_AFTER
+	sleep 1
+done

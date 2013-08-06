@@ -1,6 +1,8 @@
 dzenbar
 =======
 
+dzen2 bar with multiplexer
+
 requirements
 ------------
 
@@ -15,6 +17,7 @@ cd ~/sft/
 git clone git@github.com:qbbr/dzenbar.git
 cd dzenbar/
 cp .dzenbarrc.dist .dzenbarrc
+sudo gcc -Wall dmplex.c -o /usr/bin/dmplex
 ```
 
 add to .xinitrc
@@ -22,6 +25,11 @@ add to .xinitrc
 ```bash
 ~/sft/dzenbar/dzenbar &
 ```
+
+configure
+---------
+
+see `.dzenbarrc`
 
 overview
 --------
@@ -36,4 +44,5 @@ overview
  * new mail count
  * weather (weather-util)
  * volume
+ * battery
  * mpd

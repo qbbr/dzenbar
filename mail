@@ -1,0 +1,15 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+while true; do
+	COUNT=`ls -1 ${MAILDIR} | wc -l`
+	if [ "$COUNT" = 0 ]; then
+		OUTPUT=$(text $COUNT)
+	else
+		OUTPUT=$COUNT
+	fi
+	echo "$1 $(icon 'mail') $OUTPUT" > $PIPE
+
+	sleep 10
+done

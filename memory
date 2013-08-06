@@ -1,0 +1,14 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+while true; do
+	# %
+	MEM_USAGE_PERCENT=`free -om | awk '/Mem:/ {print int(($3 - $7 - $6) / $2  * 100)}'`
+	# Mb
+	MEM_USAGE_MB=`free -om | awk '/Mem:/ {print int($2 - ($3 - $7 - $6))}'`
+
+	echo "$1 $(icon 'mem') $MEM_USAGE_PERCENT% $(text '(')"$MEM_USAGE_MB"M$(text ')')" > $PIPE
+
+	sleep 5
+done

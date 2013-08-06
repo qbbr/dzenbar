@@ -1,0 +1,18 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+while true; do
+	VOLUME=`amixer get $MIXER | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/'`
+	VOLUME_ON=`amixer get $MIXER | sed -ne 's/.*\ \[\([^]]*\).*/\1/p'`
+
+	if [ "$VOLUME_ON" = "on" ]; then
+		OUTPUT="$(icon 'volume')"
+	else
+		OUTPUT="$(icon 'volume-mute')"
+	fi
+
+	echo "$1 $OUTPUT $VOLUME%" > $PIPE
+
+	sleep 5
+done

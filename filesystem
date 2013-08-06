@@ -1,0 +1,28 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+while true; do
+	OUTPUT=''
+	_CACHE=`df -h`
+
+	COUNT=${#FILESYSTEMS[@]}
+	let "COUNT = $COUNT - 1"
+	for (( i=0; i <= $COUNT; i++ )); do
+		OUTPUT=$OUTPUT$(text "`basename ${FILESYSTEMS[$i]}`: ")
+		FS_DFC=`echo "$_CACHE" | grep "${FILESYSTEMS[$i]}"`
+
+		OUTPUT=$OUTPUT"`echo "$FS_DFC" | awk '{ print $5 }'`"
+		OUTPUT=$OUTPUT$(text ' (')
+		OUTPUT=$OUTPUT"`echo "$FS_DFC" | awk '{ print $4 }'`"
+		OUTPUT=$OUTPUT$(text ')')
+
+		if [ "$i" != "$COUNT" ]; then
+			OUTPUT=$OUTPUT$(text ', ')
+		fi
+	done
+
+	echo "$1 $(icon 'tall') $OUTPUT" > $PIPE
+
+	sleep 60
+done

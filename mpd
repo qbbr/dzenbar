@@ -1,0 +1,15 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+while true; do
+	if [ "`mpc | head -c 6`" = "volume" ]; then
+		OUTPUT='[stoped]'
+	else
+		OUTPUT=`mpc | head -n 1`
+	fi
+
+	echo "$1 $(icon 'mpd') $OUTPUT" > $PIPE
+
+	sleep 1m
+done

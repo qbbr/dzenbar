@@ -1,0 +1,11 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+while true; do
+	OUTPUT=`acpi -b | cut -d ' ' -f 4 | tr -d [,]`
+
+	echo "$1 $(icon 'battery') $OUTPUT" > $PIPE
+
+	sleep 1m
+done

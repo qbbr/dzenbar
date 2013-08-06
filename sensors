@@ -1,0 +1,25 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+while true; do
+	OUTPUT=''
+	_CACHE=`sensors`
+
+	COUNT=${#SENSORS[@]}
+	i=0
+	let "COUNT = $COUNT - 1"
+	for key in ${!SENSORS[@]}; do
+		OUTPUT=$OUTPUT$(text $key)
+		_TEMP=`echo "$_CACHE" | sed "${SENSORS[$key]}!D" | sed -ne 's/[^:]*: \+[-+]\([0-9]\+\).*/\1/p'`
+		OUTPUT=`echo -n "$_TEMP°C"`
+		if [ "$i" != "$COUNT" ]; then
+			OUTPUT=$OUTPUT$(text ', ')
+		fi
+		let "i = $i +1"
+	done
+
+	echo "$1 $(icon 'temp') $OUTPUT" > $PIPE
+
+	sleep 5
+done
