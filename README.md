@@ -12,7 +12,7 @@ requirements
 how it work
 -----------
 
-![dzen2 multiplexer](http://drive.google.com/uc?export=view&id=0B9eokrwqlkdIelNPeV9XSkxhOEE)
+![dzen2 multiplexer](https://lh3.googleusercontent.com/-QeQDWYCKcOI/UgDgaj9EdJI/AAAAAAAABO8/WoetCGbTCNY/s502/dzen2_with_multiplexer.png)
 
 installation
 ------------
