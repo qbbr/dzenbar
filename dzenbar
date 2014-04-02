@@ -12,8 +12,9 @@ tail -f $PIPE | dmplex | dzen2 -x $X -y $Y -w $WIDTH -h $HEIGHT -bg $BG -fg $FG 
 ./memory 3 &
 ./filesystem 4 &
 ./network 5 &
-./weather 6 &
-#./mail 7 &
-./volume 8 &
-#./battery 9 &
-#./mpd 10 &
+./mcabber 6 &
+./weather 7 &
+#./mail 8 &
+./volume 9 &
+#./battery 10 &
+#./mpd 11 &

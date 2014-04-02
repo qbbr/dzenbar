@@ -1,0 +1,17 @@
+#!/bin/bash
+
+. .dzenbarrc
+
+MCABBER_STATE="$HOME/.mcabber/mcabber.state"
+
+while true; do
+	if [ -f $MCABBER_STATE ]
+	then
+		COUNT=`cat $MCABBER_STATE | wc -l`
+	else
+		COUNT=$(text 0)
+	fi
+	
+	echo "$1 $(icon 'mail') $COUNT" > $PIPE
+	sleep 1
+done
