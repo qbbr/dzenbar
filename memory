@@ -3,10 +3,11 @@
 . .dzenbarrc
 
 while true; do
+	_CACHE=`free -m`
 	# %
-	MEM_USAGE_PERCENT=`free -om | awk '/Mem:/ {print int(($3 - $7 - $6) / $2  * 100)}'`
+	MEM_USAGE_PERCENT=`echo -e "$_CACHE" | awk '/Mem:/ {print int($3 * 100 / $2)}'`
 	# Mb
-	MEM_USAGE_MB=`free -om | awk '/Mem:/ {print int($2 - ($3 - $7 - $6))}'`
+	MEM_USAGE_MB=`echo -e "$_CACHE" | awk '/Mem:/ {print $3}'`
 
 	echo "$1 $(icon 'mem') $MEM_USAGE_PERCENT% $(text '(')"$MEM_USAGE_MB"M$(text ')')" > $PIPE
 

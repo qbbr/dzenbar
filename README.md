@@ -3,18 +3,18 @@ dzenbar
 
 dzen2 bar with multiplexer
 
-requirements
+Requirements
 ------------
 
  * [lm-sensors](http://www.lm-sensors.org/)
  * [weather-util](http://fungi.yuggoth.org/weather/)
 
-how it work
+How it work
 -----------
 
 ![dzen2 multiplexer](https://lh3.googleusercontent.com/-QeQDWYCKcOI/UgDgaj9EdJI/AAAAAAAABO8/WoetCGbTCNY/s502/dzen2_with_multiplexer.png)
 
-installation
+Installation
 ------------
 
 ```bash
@@ -31,12 +31,12 @@ add to .xinitrc
 ~/sft/dzenbar/dzenbar &
 ```
 
-configure
----------
+Configuration
+-------------
 
 see `.dzenbarrc`
 
-overview
+Overview
 --------
 
 [![dzen2](https://lh3.googleusercontent.com/-Vu-kTSNaxS8/TnEzqCJ92TI/AAAAAAAAAd4/3Dh5K2GdjAo/s900/dzen2-bottom-short.png)](https://lh6.googleusercontent.com/-iy-0aq7uagk/TnEwB5whzbI/AAAAAAAAAds/DbEyIYe3G5Q/s1400/dzen2-bottom.png)
