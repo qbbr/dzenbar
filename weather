@@ -7,8 +7,20 @@ while true; do
 	weather UIII -q -m > $_CACHE
 	W_TEMP=`cat $_CACHE | awk '/Temperature/ {print $2}'`
 	W_HUMIDITY=`cat $_CACHE | awk '/Humidity/ {print $3}'`
+	W_SKY=`cat $_CACHE | awk '/Sky conditions/ {for(i=3;i<=NF;i++) print $i}' | sed ':a;N;$!ba;s/\n/ /g'`
 
-	echo "$1 $(icon 'load') $(text 't:') $W_TEMP°C$(text ', h:') $W_HUMIDITY" > $PIPE
+	if [[ -n $W_SKY ]]; then
+		W_SKY="$W_SKY, "
+	fi
+
+	W_WIND=`cat $_CACHE | awk -F KPH '/Wind/ {print $1}' | awk '{print $NF}'`
+
+	if [[ -n $W_WIND ]]; then
+		W_WIND=`echo "scale=1; ${W_WIND}*1000/60/60" | bc -l | awk '{printf "%.1f\n", $0}'`
+		W_WIND="$W_WIND mps, "
+	fi
+
+	echo "$1 $(icon 'load') $W_SKY$W_WIND$(text 't:') $W_TEMP°C$(text ', h:') $W_HUMIDITY" > $PIPE
 
 	sleep 30m
 done
