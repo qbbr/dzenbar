@@ -21,7 +21,7 @@ while true; do
 	# reset old rates
 	RXB=$RXBN; TXB=$TXBN
 
-	echo "$1 $(icon 'wired') ^fg(#67b15f)^i($ICON_PATH/net_down.xbm)^fg() $RXR kB/s ^fg(#785038)^i($ICON_PATH/net_up.xbm)^fg() $TXR kB/s" > $PIPE
+	echo "$1 $(icon 'wired') ^fg($ICON_NETWORK_DOWN_COLOR)^i($ICON_PATH/net_down.xbm)^fg() $RXR kB/s ^fg($ICON_NETWORK_UP_COLOR)^i($ICON_PATH/net_up.xbm)^fg() $TXR kB/s" > $PIPE
 
 	sleep $SLEEP
 done
