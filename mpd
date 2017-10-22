@@ -5,11 +5,13 @@
 while true; do
 	if [ "`mpc | head -c 6`" = "volume" ]; then
 		OUTPUT='[stoped]'
+	elif [ "`mpc | sed -n '2p' | head -c 8`" = "[paused]" ]; then
+		OUTPUT='[paused]'
 	else
 		OUTPUT=`mpc | head -n 1`
 	fi
 
 	echo "$1 $(icon 'mpd') $OUTPUT" > $PIPE
 
-	sleep 1m
+	sleep 10
 done
