@@ -1,17 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
-MCABBER_STATE="$HOME/.mcabber/mcabber.state"
+mcabber_state="$HOME/.mcabber/mcabber.state"
 
 while true; do
-	if [ -f $MCABBER_STATE ]
-	then
-		COUNT=`cat $MCABBER_STATE | wc -l`
-	else
-		COUNT=$(text 0)
-	fi
-	
-	echo "$1 $(icon 'mail') $COUNT" > $PIPE
-	sleep 1
+    if [ -f $mcabber_state ]
+    then
+        count=`cat $mcabber_state | wc -l`
+    else
+        count=$(text 0)
+    fi
+    
+    echo "$pipe_section $(decor_arrow $(icon 'mail')) $count" > $pipe_file
+    sleep 1
 done

@@ -1,18 +1,19 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
 while true; do
-	VOLUME=`amixer get $MIXER | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/'`
-	VOLUME_ON=`amixer get $MIXER | sed -ne 's/.*\ \[\([^]]*\).*/\1/p'`
+    volume=`amixer get $mixer | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/'`
+    volume_on=`amixer get $mixer | sed -ne 's/.*\ \[\([^]]*\).*/\1/p'`
 
-	if [ "$VOLUME_ON" = "on" ]; then
-		OUTPUT="$(icon 'volume')"
-	else
-		OUTPUT="$(icon 'volume-mute')"
-	fi
+    if [ "$volume_on" = "on" ]; then
+        output="$(decor_arrow $(icon 'volume'))"
+    else
+        output="$(decor_arrow $(icon 'volume-mute'))"
+    fi
 
-	echo "$1 $OUTPUT $VOLUME%" > $PIPE
+    echo "$pipe_section $output $volume%" > $pipe_file
 
-	sleep 5
+    sleep 5
 done

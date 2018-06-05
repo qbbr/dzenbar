@@ -1,20 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-cd "$( dirname "${BASH_SOURCE[0]}" )"
+cd "$(dirname "${BASH_SOURCE[0]}")"
 
 . .dzenbarrc
 
-rm -f $PIPE
-mkfifo $PIPE
-tail -f $PIPE | dmplex | dzen2 -x $X -y $Y -w $WIDTH -h $HEIGHT -bg $BG -fg $FG -ta c -fn $FONT -p &
-./cpu 1 &
-./sensors 2 &
-./memory 3 &
-./filesystem 4 &
-./network 5 &
-./mcabber 6 &
-./weather 7 &
-#./mail 8 &
-./volume 9 &
-#./battery 10 &
-#./mpd 11 &
+# available scrpts:
+#     battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather
+
+scrpts=(
+    [0]="cpu sensors memory filesystem network"
+    [1]="mcabber weather volume mpd"
+)
+
+for ((m = 0; m < ${#scrpts[@]}; m++)); do
+    mpipe="${pipe}_${m}"
+    rm -f $mpipe
+    mkfifo $mpipe
+
+    n=1
+    for script in ${scrpts[$m]}; do
+        . ./$script $mpipe $n &
+        ((++n))
+    done
+
+    let 'xs = m + 1'
+    tail -f $mpipe | dmplex | dzen2 -xs $xs -e 'button3=;' -x $dzen_x -y $dzen_y -w $dzen_width -h $dzen_height -bg $bg_color -fg $fg_color -ta c -fn $dzen_font -p -title-name dzenbar &
+done

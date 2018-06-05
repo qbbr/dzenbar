@@ -1,15 +1,16 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
 while true; do
-	COUNT=`ls -1 ${MAILDIR} | wc -l`
-	if [ "$COUNT" = 0 ]; then
-		OUTPUT=$(text $COUNT)
-	else
-		OUTPUT=$COUNT
-	fi
-	echo "$1 $(icon 'mail') $OUTPUT" > $PIPE
+    count=`ls -1 ${maildir} | wc -l`
+    if [ "$count" = 0 ]; then
+        output=$(text $count)
+    else
+        output=$count
+    fi
+    echo "$pipe_section $(decor_arrow $(icon 'mail')) $output" > $pipe_file
 
-	sleep 10
+    sleep 10
 done

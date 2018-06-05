@@ -1,25 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
 while true; do
-	OUTPUT=''
-	_CACHE=`sensors`
+    output=''
+    cache=`sensors`
 
-	COUNT=${#SENSORS[@]}
-	i=0
-	let "COUNT = $COUNT - 1"
-	for key in ${!SENSORS[@]}; do
-		OUTPUT="$OUTPUT$(text $key)"
-		_TEMP=`echo "$_CACHE" | sed "${SENSORS[$key]}!D" | sed -ne 's/[^:]*: \+[-+]\([0-9]\+\).*/\1/p'`
-		OUTPUT="$OUTPUT $_TEMP°C"
-		if [ "$i" != "$COUNT" ]; then
-			OUTPUT=$OUTPUT$(text ', ')
-		fi
-		let "i = $i + 1"
-	done
+    count=${#sensors[@]}
+    i=0
+    let "count = $count - 1"
+    for key in ${!sensors[@]}; do
+        output="$output$(text $key)"
+        _temp=`echo "$cache" | sed "${sensors[$key]}!D" | sed -ne 's/[^:]*: \+[-+]\([0-9]\+\).*/\1/p'`
+        output="$output $_temp°C"
+        if [ "$i" != "$count" ]; then
+            output=$output$(text ', ')
+        fi
+        let "i = $i + 1"
+    done
 
-	echo "$1 $(icon 'temp') $OUTPUT" > $PIPE
+    echo "$pipe_section $(decor_arrow $(icon 'temp')) $output" > $pipe_file
 
-	sleep 5
+    sleep 5
 done

@@ -1,58 +1,53 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
-STAT_BEFORE=`cat /proc/stat | head -n 5`
-
-# number of cpu cores
-CPU_CORES=`nproc`
+stat_before=`cat /proc/stat | head -n 5`
+cpu_cores=`nproc` # number of cpu cores
 
 sleep 0.01
 getCoreLoadPercent() {
-	CORE=$1
+    local core=$1
 
-	BEFORE=`echo "$STAT_BEFORE" | grep "^cpu$CORE "`
-	AFTER=`echo "$STAT_AFTER" | grep "^cpu$CORE "`
+    before=`echo "$stat_before" | grep "^cpu${core} "`
+    after=`echo "$stat_after" | grep "^cpu${core} "`
 
-	# парсим колонки
-	USER0=`echo "$BEFORE" | awk '{ print $2 }'`
-	USER1=`echo "$AFTER" | awk '{ print $2 }'`
-	NICE0=`echo "$BEFORE" | awk '{ print $3 }'`
-	NICE1=`echo "$AFTER" | awk '{ print $3 }'`
-	SYST0=`echo "$BEFORE" | awk '{ print $4 }'`
-	SYST1=`echo "$AFTER" | awk '{ print $4 }'`
-	IDLE0=`echo "$BEFORE" | awk '{ print $5 }'`
-	IDLE1=`echo "$AFTER" | awk '{ print $5 }'`
+    user0=`echo "$before" | awk '{ print $2 }'`
+    user1=`echo "$after" | awk '{ print $2 }'`
+    nice0=`echo "$before" | awk '{ print $3 }'`
+    nice1=`echo "$after" | awk '{ print $3 }'`
+    syst0=`echo "$before" | awk '{ print $4 }'`
+    syst1=`echo "$after" | awk '{ print $4 }'`
+    idle0=`echo "$before" | awk '{ print $5 }'`
+    idle1=`echo "$after" | awk '{ print $5 }'`
 
-	# разность
-	USER=`expr $USER1 - $USER0`
-	NICE=`expr $NICE1 - $NICE0`
-	SYST=`expr $SYST1 - $SYST0`
-	IDLE=`expr $IDLE1 - $IDLE0`
+    user=`expr $user1 - $user0`
+    nice=`expr $nice1 - $nice0`
+    syst=`expr $syst1 - $syst0`
+    idle=`expr $idle1 - $idle0`
 
-	# сумма разностей
-	TOTAL=`expr $USER + $NICE + $SYST + $IDLE`
-	USED=`expr $USER + $NICE + $SYST`
+    total=`expr $user + $nice + $syst + $idle`
+    used=`expr $user + $nice + $syst`
 
-	# средняя загрузка за интервал времени в процентах
-	echo "$USED * 100 / $TOTAL" | bc
+    echo "$used * 100 / $total" | bc
 }
 
 while true; do
-	STAT_AFTER=`cat /proc/stat | head -n 5`
+    stat_after=`cat /proc/stat | head -n 5`
+    output="${pipe_section} $(decor_arrow $(icon 'cpu')) "
 
-	OUTPUT="$1 $(icon 'cpu') "
+    let "last = $cpu_cores - 1"
+    for ((i=0; i < $cpu_cores; i++)); do
+        output=$output`getCoreLoadPercent $i`%
 
-	let "LAST = $CPU_CORES - 1"
-	for (( i=0; i < $CPU_CORES; i++ )); do
-		OUTPUT=$OUTPUT`getCoreLoadPercent $i`%
-		if [ "$i" != "$LAST" ]; then
-			OUTPUT=$OUTPUT$(text ' / ')
-		fi
-	done
+        if [[ "$i" != "$last" ]]; then
+            output="${output}$(text ' / ')"
+        fi
+    done
 
-	echo $OUTPUT > $PIPE
+    echo $output > $pipe_file
 
-	STAT_BEFORE=$STAT_AFTER
-	sleep 1
+    stat_before=$stat_after
+    sleep 1
 done

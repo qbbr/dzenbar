@@ -1,11 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
 while true; do
-	OUTPUT=`acpi -b | cut -d ' ' -f 4 | tr -d [,]`
+    output=$(acpi -b | cut -d ' ' -f 4 | tr -d [,])
 
-	echo "$1 $(icon 'battery') $OUTPUT" > $PIPE
+    echo "$pipe_section $(icon 'battery') $output" > $pipe_file
 
-	sleep 1m
+    sleep 5m
 done

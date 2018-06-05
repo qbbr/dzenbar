@@ -1,13 +1,14 @@
 dzenbar
 =======
 
-dzen2 bar with multiplexer
+dzen2 bar multiplexer with dual monitor support.
 
 Requirements
 ------------
 
- * [lm-sensors](http://www.lm-sensors.org/)
+ * [lm-sensors](https://github.com/groeck/lm-sensors)
  * [weather-util](http://fungi.yuggoth.org/weather/)
+ * [mpc](https://www.musicpd.org/clients/mpc/)
 
 How it work
 -----------
@@ -45,10 +46,10 @@ Overview
  * CPU, MB temperature (sensors)
  * mem percent / free
  * fs percent usage / free
- * network (eth0) down/up speed in kB/s
- * new mail count
+ * network interface down/up speed in kB/s
+ * email counter
  * weather (weather-util)
- * volume
+ * sound volume
  * battery (acpi)
- * mpd
+ * mpd (mpc)
  * mcabber (statefile)

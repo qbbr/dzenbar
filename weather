@@ -1,26 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
 while true; do
-	_CACHE='/tmp/weather.cache'
-	weather UIII -q -m > $_CACHE
-	W_TEMP=`cat $_CACHE | awk '/Temperature/ {print $2}'`
-	W_HUMIDITY=`cat $_CACHE | awk '/Humidity/ {print $3}'`
-	W_SKY=`cat $_CACHE | awk '/Sky conditions/ {for(i=3;i<=NF;i++) print $i}' | sed ':a;N;$!ba;s/\n/ /g'`
+    cache='/tmp/weather.cache'
+    weather UIII -q -m > $cache
 
-	if [[ -n $W_SKY ]]; then
-		W_SKY="$W_SKY, "
-	fi
+    w_temp=`cat $cache | awk '/Temperature/ {print $2}'`
+    w_humidity=`cat $cache | awk '/Humidity/ {print $3}'`
+    w_sky=`cat $cache | awk '/Sky conditions/ {for(i=3;i<=NF;i++) print $i}' | sed ':a;N;$!ba;s/\n/ /g'`
 
-	W_WIND=`cat $_CACHE | awk -F KPH '/Wind/ {print $1}' | awk '{print $NF}'`
+    if [[ -n $w_sky ]]; then
+        w_sky="$w_sky, "
+    fi
 
-	if [[ -n $W_WIND ]]; then
-		W_WIND=`echo "scale=1; ${W_WIND}*1000/60/60" | bc -l | awk '{printf "%.1f\n", $0}'`
-		W_WIND="$W_WIND mps, "
-	fi
+    w_wind=`cat $cache | awk -F KPH '/Wind/ {print $1}' | awk '{print $NF}'`
 
-	echo "$1 $(icon 'load') $W_SKY$W_WIND$(text 't:') $W_TEMP°C$(text ', h:') $W_HUMIDITY" > $PIPE
+    if [[ -n $w_wind ]]; then
+        W_WIND=`echo "scale=1; ${w_wind}*1000/60/60" | bc -l | awk '{printf "%.1f\n", $0}'`
+        W_WIND="${w_wind} mps, "
+    fi
 
-	sleep 30m
+    echo "$pipe_section $(decor_arrow $(icon 'load')) ${w_sky}${w_wind}$(text 't:') ${w_temp}°C$(text ', h:') ${w_humidity}" > $pipe_file
+
+    sleep 30m
 done

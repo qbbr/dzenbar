@@ -1,35 +1,46 @@
-#!/bin/bash
-# .dzenbarrc config
+#!/usr/bin/env bash
 
-declare -A FILESYSTEMS
-FILESYSTEMS=(['root:']='/dev/sda6' ['home:']='/sda9') # grep of `df`
-MAILDIR="$HOME/Mail/GMail/INBOX/new/"
-INTERFACE='eth0'
-declare -A SENSORS
-SENSORS=(['CPU:']=4) # line of `sensors`
-MIXER='Master'
+declare -A filesystem_disk_list
+filesystem_disk_list=(['root:']='/sda2' ['strg1:']='/sdb5' ['dwnlds:']='/sdb4') # grep of `df`
+maildir="$HOME/Mail/GMail/INBOX/new/"
+interface='enp4s0'
+declare -A sensors
+sensors=(['CPU:']=52 ['GPU:']=4) # line of `sensors`
+mixer='Master'
 
-PIPE='/tmp/dzenpipe'
-ICON_PATH='xbm'
-ICON_COLOR='#224488'
-ICON_NETWORK_DOWN_COLOR='#859900'
-ICON_NETWORK_UP_COLOR='#CB4B16'
-BG='#101010'
-FG='#ffffff'
-NORMAL_COLOR='^fg()'
-GRAY_COLOR='^fg(#555555)'
-CLEAR_COLOR='^fg()'
-X=0
-Y=1004
-HEIGHT=20
-WIDTH=1280
-FONT='-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*'
+pipe='/tmp/dzenpipe'
+
+icon_path='xbm'
+icon_color='#268BD2'
+icon_network_down_color='#859900'
+icon_network_up_color='#CB4B16'
+
+blue_color='#268BD2'
+white_color='#FFFFFF'
+bg_color='#073642'
+fg_color='#657B83'
+
+normal_color='^fg()'
+gray_color='^fg(#839496)'
+clear_color='^fg()'
+
+dzen_x=0
+dzen_y=1060
+dzen_height=20
+dzen_width=1920
+dzen_font='-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*'
 
 # functions
 icon() {
-	echo -n "^fg($ICON_COLOR)^i($ICON_PATH/$1.xbm)^fg()"
+    echo -n "^fg($white_color)^i($icon_path/$1.xbm)^fg()"
 }
 
 text() {
-	echo -n $GRAY_COLOR$1$CLEAR_COLOR
+    echo -n "${gray_color}${1}${clear_color}"
+}
+
+arrow="^fn(powerlinesymbols-14)^fn()"
+
+decor_arrow() {
+    echo -n "^bg($blue_color)^fg($bg_color)$arrow^bg($blue_color)^fg($white_color) $1 ^bg($bg_color)^fg($blue_color)$arrow^bg()^fg()"
 }

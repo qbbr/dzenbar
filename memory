@@ -1,15 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
 while true; do
-	_CACHE=`free -m`
-	# %
-	MEM_USAGE_PERCENT=`echo -e "$_CACHE" | awk '/Mem:/ {print int($3 * 100 / $2)}'`
-	# Mb
-	MEM_USAGE_MB=`echo -e "$_CACHE" | awk '/Mem:/ {print $3}'`
+    cache=`free -m`
+    mem_usage_percent=`echo -e "$cache" | awk '/Mem:/ {print int($3 * 100 / $2)}'`
+    mem_usage_mb=`echo -e "$cache" | awk '/Mem:/ {print $3}'`
 
-	echo "$1 $(icon 'mem') $MEM_USAGE_PERCENT% $(text '(')"$MEM_USAGE_MB"M$(text ')')" > $PIPE
+    echo "${pipe_section} $(decor_arrow $(icon 'mem')) ${mem_usage_percent}% $(text '(')"${mem_usage_mb}"M$(text ')')" > $pipe_file
 
-	sleep 5
+    sleep 5
 done

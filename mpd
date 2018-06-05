@@ -1,17 +1,18 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
 while true; do
-	if [ "`mpc | head -c 6`" = "volume" ]; then
-		OUTPUT='[stoped]'
-	elif [ "`mpc | sed -n '2p' | head -c 8`" = "[paused]" ]; then
-		OUTPUT='[paused]'
-	else
-		OUTPUT=`mpc | head -n 1`
-	fi
+    if [ "`mpc | head -c 6`" = "volume" ]; then
+        output='[stoped]'
+    elif [ "`mpc | sed -n '2p' | head -c 8`" = "[paused]" ]; then
+        output='[paused]'
+    else
+        output=`mpc | head -n 1`
+    fi
 
-	echo "$1 $(icon 'mpd') $OUTPUT" > $PIPE
+    echo "$pipe_section $(decor_arrow $(icon 'mpd')) $output" > $pipe_file
 
-	sleep 10
+    sleep 10
 done

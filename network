@@ -1,27 +1,28 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
-SLEEP=2
+sleep=2
 
 # here we remember the previous rx/tx counts
-RXB=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
-TXB=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
+rxb=`cat /sys/class/net/$interface/statistics/rx_bytes`
+txb=`cat /sys/class/net/$interface/statistics/tx_bytes`
 
 while true; do
-	# get new rx/tx counts
-	RXBN=`cat /sys/class/net/$INTERFACE/statistics/rx_bytes`
-	TXBN=`cat /sys/class/net/$INTERFACE/statistics/tx_bytes`
+    # get new rx/tx counts
+    rxbn=`cat /sys/class/net/$interface/statistics/rx_bytes`
+    txbn=`cat /sys/class/net/$interface/statistics/tx_bytes`
 
-	# calculate the rates
-	# format the values to 4 digit fields
-	RXR=`echo "($RXBN - $RXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
-	TXR=`echo "($TXBN - $TXB) / 1024 / $SLEEP" | bc -l | xargs printf "%.2f"`
+    # calculate the rates
+    # format the values to 4 digit fields
+    rxr=`echo "($rxbn - $rxb) / 1024 / $sleep" | bc -l | xargs printf "%.2f"`
+    txr=`echo "($txbn - $txb) / 1024 / $sleep" | bc -l | xargs printf "%.2f"`
 
-	# reset old rates
-	RXB=$RXBN; TXB=$TXBN
+    # reset old rates
+    rxb=$rxbn; TXB=$txbn
 
-	echo "$1 $(icon 'wired') ^fg($ICON_NETWORK_DOWN_COLOR)^i($ICON_PATH/net_down.xbm)^fg() $RXR kB/s ^fg($ICON_NETWORK_UP_COLOR)^i($ICON_PATH/net_up.xbm)^fg() $TXR kB/s" > $PIPE
+    echo "$pipe_section $(decor_arrow $(icon 'wired')) ^fg($icon_network_down_color)^i($icon_path/net_down.xbm)^fg() $rxr kB/s ^fg($icon_network_up_color)^i($icon_path/net_up.xbm)^fg() $txr kB/s" > $pipe_file
 
-	sleep $SLEEP
+    sleep $sleep
 done

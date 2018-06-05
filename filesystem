@@ -1,31 +1,33 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-. .dzenbarrc
+pipe_file=$1
+pipe_section=$2
 
 while true; do
-	OUTPUT=''
-	_CACHE=`df -h`
+    output=''
+    cache=`df -h`
 
-	COUNT=${#FILESYSTEMS[@]}
-	i=0
-	let "COUNT = $COUNT - 1"
-	for key in ${!FILESYSTEMS[@]}; do
-		OUTPUT=$OUTPUT$(text $key)
-		FS_DFC=`echo "$_CACHE" | grep "${FILESYSTEMS[$key]}"`
+    count=${#filesystem_disk_list[@]}
+    ((--count))
+    i=0
 
-		OUTPUT="$OUTPUT `echo "$FS_DFC" | awk '{ print $5 }'`"
-		OUTPUT=$OUTPUT$(text ' (')
-		OUTPUT=$OUTPUT"`echo "$FS_DFC" | awk '{ print $4 }'`"
-		OUTPUT=$OUTPUT$(text ')')
+    for key in ${!filesystem_disk_list[@]}; do
+        output="${output}$(text $key)"
+        fs_dfc=$(echo "${cache}" | grep "${filesystem_disk_list[$key]}")
 
-		if [ "$i" != "$COUNT" ]; then
-			OUTPUT=$OUTPUT$(text ', ')
-		fi
+        output="${output} $(echo $fs_dfc | awk '{ print $5 }')"
+        output="${output} $(text '(')"
+        output="${output}$(echo $fs_dfc | awk '{ print $4 }')"
+        output="${output}$(text ')')"
 
-		let "i = $i + 1"
-	done
+        if [[ "$i" != "$count" ]]; then
+            output="${output}$(text ', ')"
+        fi
 
-	echo "$1 $(icon 'tall') $OUTPUT" > $PIPE
+        ((i++))
+    done
 
-	sleep 60
+    echo "$pipe_section $(decor_arrow $(icon 'tall')) $output" > $pipe_file
+
+    sleep 60
 done
