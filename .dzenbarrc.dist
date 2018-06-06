@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+# available scrpts:
+#     battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather
+
+scrpts=(
+    [0]="cpu sensors memory network volume mpd"
+)
+
+# for multiple monitors
+#scrpts=(
+#    [0]="cpu sensors memory filesystem network"
+#    [1]="mcabber weather volume mpd"
+#)
+
 declare -A filesystem_disk_list
 filesystem_disk_list=(['root:']='/sda2' ['strg1:']='/sdb5' ['dwnlds:']='/sdb4') # grep of `df`
 maildir="$HOME/Mail/GMail/INBOX/new/"

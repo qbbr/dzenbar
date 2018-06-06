@@ -4,14 +4,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 . .dzenbarrc
 
-# available scrpts:
-#     battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather
-
-scrpts=(
-    [0]="cpu sensors memory filesystem network"
-    [1]="mcabber weather volume mpd"
-)
-
 for ((m = 0; m < ${#scrpts[@]}; m++)); do
     mpipe="${pipe}_${m}"
     rm -f $mpipe

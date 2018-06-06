@@ -1,7 +1,7 @@
 dzenbar
 =======
 
-dzen2 bar multiplexer with dual monitor support.
+dzen2 bar multiplexer with multiple monitors support.
 
 Requirements
 ------------
