@@ -18,8 +18,8 @@ while true; do
     w_wind=`cat $cache | awk -F KPH '/Wind/ {print $1}' | awk '{print $NF}'`
 
     if [[ -n $w_wind ]]; then
-        W_WIND=`echo "scale=1; ${w_wind}*1000/60/60" | bc -l | awk '{printf "%.1f\n", $0}'`
-        W_WIND="${w_wind} mps, "
+        w_wind=`echo "scale=1; ${w_wind}*1000/60/60" | bc -l | awk '{printf "%.1f\n", $0}'`
+        w_wind="${w_wind} mps, "
     fi
 
     echo "$pipe_section $(decor_arrow $(icon 'load')) ${w_sky}${w_wind}$(text 't:') ${w_temp}°C$(text ', h:') ${w_humidity}" > $pipe_file
