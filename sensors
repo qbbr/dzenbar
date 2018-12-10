@@ -20,7 +20,7 @@ while true; do
         let "i = $i + 1"
     done
 
-    echo "$pipe_section $(decor_arrow $(icon 'temp')) $output" > $pipe_file
+    echo "$pipe_section $(decor_blue $(icon 'temp')) $output" > $pipe_file
 
     sleep 5
 done

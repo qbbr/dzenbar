@@ -52,8 +52,6 @@ text() {
     echo -n "${gray_color}${1}${clear_color}"
 }
 
-arrow="^fn(powerlinesymbols-14)^fn()"
-
-decor_arrow() {
-    echo -n "^bg($blue_color)^fg($bg_color)$arrow^bg($blue_color)^fg($white_color) $1 ^bg($bg_color)^fg($blue_color)$arrow^bg()^fg()"
+decor_blue() {
+    echo -n "^bg($blue_color)^fg($bg_color) $1 ^bg()^fg()"
 }

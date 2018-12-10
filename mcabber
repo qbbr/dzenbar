@@ -12,7 +12,7 @@ while true; do
     else
         count=$(text 0)
     fi
-    
-    echo "$pipe_section $(decor_arrow $(icon 'mail')) $count" > $pipe_file
+
+    echo "$pipe_section $(decor_blue $(icon 'mail')) $count" > $pipe_file
     sleep 1
 done

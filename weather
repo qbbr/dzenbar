@@ -22,7 +22,7 @@ while true; do
         w_wind="${w_wind} mps, "
     fi
 
-    echo "$pipe_section $(decor_arrow $(icon 'load')) ${w_sky}${w_wind}$(text 't:') ${w_temp}°C$(text ', h:') ${w_humidity}" > $pipe_file
+    echo "$pipe_section $(decor_blue $(icon 'load')) ${w_sky}${w_wind}$(text 't:') ${w_temp}°C$(text ', h:') ${w_humidity}" > $pipe_file
 
     sleep 30m
 done

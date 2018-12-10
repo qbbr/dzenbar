@@ -12,7 +12,7 @@ while true; do
         output=`mpc | head -n 1`
     fi
 
-    echo "$pipe_section $(decor_arrow $(icon 'mpd')) $output" > $pipe_file
+    echo "$pipe_section $(decor_blue $(icon 'mpd')) $output" > $pipe_file
 
     sleep 10
 done

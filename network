@@ -22,7 +22,7 @@ while true; do
     # reset old rates
     rxb=$rxbn; txb=$txbn
 
-    echo "$pipe_section $(decor_arrow $(icon 'wired')) ^fg($icon_network_down_color)^i($icon_path/net_down.xbm)^fg() $rxr kB/s ^fg($icon_network_up_color)^i($icon_path/net_up.xbm)^fg() $txr kB/s" > $pipe_file
+    echo "$pipe_section $(decor_blue $(icon 'wired')) ^fg($icon_network_down_color)^i($icon_path/net_down.xbm)^fg() $rxr kB/s ^fg($icon_network_up_color)^i($icon_path/net_up.xbm)^fg() $txr kB/s" > $pipe_file
 
     sleep $sleep
 done

@@ -35,7 +35,7 @@ getCoreLoadPercent() {
 
 while true; do
     stat_after=`cat /proc/stat | head -n 5`
-    output="${pipe_section} $(decor_arrow $(icon 'cpu')) "
+    output="${pipe_section} $(decor_blue $(icon 'cpu')) "
 
     let "last = $cpu_cores - 1"
     for ((i=0; i < $cpu_cores; i++)); do

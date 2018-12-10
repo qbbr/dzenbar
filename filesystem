@@ -27,7 +27,7 @@ while true; do
         ((i++))
     done
 
-    echo "$pipe_section $(decor_arrow $(icon 'tall')) $output" > $pipe_file
+    echo "$pipe_section $(decor_blue $(icon 'tall')) $output" > $pipe_file
 
     sleep 60
 done

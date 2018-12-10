@@ -8,9 +8,9 @@ while true; do
     volume_on=`amixer get $mixer | sed -ne 's/.*\ \[\([^]]*\).*/\1/p'`
 
     if [ "$volume_on" = "on" ]; then
-        output="$(decor_arrow $(icon 'volume'))"
+        output="$(decor_blue $(icon 'volume'))"
     else
-        output="$(decor_arrow $(icon 'volume-mute'))"
+        output="$(decor_blue $(icon 'volume-mute'))"
     fi
 
     echo "$pipe_section $output $volume%" > $pipe_file
