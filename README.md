@@ -3,6 +3,8 @@ dzenbar
 
 dzen2 bar \w multiple monitors support.
 
+![qbbr-dzenbar](https://i.imgur.com/QQZwleh.png)
+
 Requirements
 ------------
 
@@ -37,10 +39,8 @@ Configuration
 
 see `.dzenbarrc`
 
-Overview
---------
-
-![qbbr-dzenbar](https://i.imgur.com/QQZwleh.png)
+Mods
+----
 
  * multi core CPU usage
  * memory usage
