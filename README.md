@@ -40,6 +40,8 @@ see `.dzenbarrc`
 Overview
 --------
 
+![qbbr-dzenbar](https://i.imgur.com/QQZwleh.png)
+
  * multi core CPU usage
  * memory usage
  * dev temperature (sensors)
