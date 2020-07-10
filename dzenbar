@@ -4,17 +4,34 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 . .dzenbarrc
 
-for ((m = 0; m < ${#scrpts[@]}; m++)); do
-    mpipe="${pipe}_${m}"
-    rm -f $mpipe
-    mkfifo $mpipe
+preparePipeFile() {
+	local MONITOR=${1}
+	local PIPE_FILE=$(getPipeFilePath ${MONITOR})
+	local MAX_LINES=32
+	# erase pipe file
+	> ${PIPE_FILE}
+	# fill empty lines for sed
+	for ((LINE = 0; LINE < ${MAX_LINES}; LINE++)); do
+		echo "" >> ${PIPE_FILE}
+	done
+}
 
-    n=1
-    for script in ${scrpts[$m]}; do
-        . ./$script $mpipe $n &
-        ((++n))
-    done
+echo "" > ${PIDS_FILE}
 
-    let 'xs = m + 1'
-    tail -f $mpipe | dmplex | dzen2 -xs $xs -e 'button3=;' -x $dzen_x -y $dzen_y -w $dzen_width -h $dzen_height -bg $bg_color -fg $fg_color -ta c -fn $dzen_font -p -title-name dzenbar &
+for ((MONITOR = 0; MONITOR < ${#SCRPTS[@]}; MONITOR++)); do
+	PIPE_FILE=$(getPipeFilePath ${MONITOR})
+	preparePipeFile "${MONITOR}"
+
+	LINE=1
+	for SCRIPT in ${SCRPTS[${MONITOR}]}; do
+		. ./mod_${SCRIPT} ${MONITOR} ${LINE} &
+		echo $! >> ${PIDS_FILE}
+		((++LINE))
+	done
+
+	let "xs = MONITOR + 1"
+	(while true; do CONTENT=$(sed -e ':a' -e 'N' -e '$!ba' -e 's/\n//g' ${PIPE_FILE}); echo -e ${CONTENT}; sleep 1; done) | dzen2 -xs $xs -e 'button3=;' -w $WIDTH -h $HEIGHT -x $X -y $Y -fn $FONT -bg $BG_COLOR -fg $FG_COLOR -p -title-name dzenbar &
+	echo $! >> ${PIDS_FILE}
 done
+
+#echo -e "$(iconColor \\uf2c8) $(textColor 'temperature') $(iconColor \\uf240) bat $(iconColor \\uf1c0) storage $(iconColor \\uf001) mpd_state" | dzen2 -e 'button3=;' -w $WIDTH -h $HEIGHT -x $X -y $Y -fn $FONT -bg $BG_COLOR -fg $FG_COLOR -p -title-name dzenbar2

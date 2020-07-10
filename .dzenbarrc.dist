@@ -1,57 +1,73 @@
 #!/usr/bin/env bash
 
-# available scrpts:
-#     battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather
+# available scrpts (mod_*):
+#	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather
 
-scrpts=(
-    [0]="cpu sensors memory network volume mpd"
+SCRPTS=(
+	[0]="cpu memory sensors filesystem battery network volume weather"
 )
 
 # for multiple monitors
-#scrpts=(
-#    [0]="cpu sensors memory filesystem network"
-#    [1]="mcabber weather volume mpd"
+#SCRPTS=(
+#	[0]="cpu sensors memory filesystem network"
+#	[1]="mcabber weather volume mpd"
 #)
 
-declare -A filesystem_disk_list
-filesystem_disk_list=(['root:']='/sda2' ['strg1:']='/sdb5' ['dwnlds:']='/sdb4') # grep of `df`
-maildir="$HOME/Mail/GMail/INBOX/new/"
-interface='enp4s0'
-declare -A sensors
-sensors=(['CPU:']=52 ['GPU:']=4) # line of `sensors`
-mixer='Master'
+# mod_sensors
+declare -A SENSORS
+SENSORS=(["CPU:"]=12 ["T2:"]=8) # line of `sensors`
+# mod_filesystem
+declare -A FILESYSTEM_DISK_LIST
+FILESYSTEM_DISK_LIST=(["root:"]="/sda5") # grep of `df`
+# mod_network
+NETWORK_INTERFACE="wlp2s0"
+# mod_volume
+VOLUME_MIXER="Master"
+# mod_mail
+MAIL_DIR="${HOME}/Mail/GMail/INBOX/new/"
+# mod_mcabber
+MCABBER_STATE="${HOME}/.mcabber/mcabber.state"
 
-pipe='/tmp/dzenpipe'
+# xdpyinfo | grep dimensions
+WIDTH=1366
+HEIGHT=20
+X=0
+Y=748
+FONT="terminus-12"
+BG_COLOR="#002B36"
+FG_COLOR="#657B83"
+ICON_PATH="xbm\/"
+ICON_COLOR="#268BD2"
+TEXT_COLOR="#839496"
+PIPE_FILE_DIR="/tmp/"
+PIDS_FILE="/tmp/dzenbarpids"
 
-icon_path='xbm'
-icon_color='#268BD2'
-icon_network_down_color='#859900'
-icon_network_up_color='#CB4B16'
+putLineToPipeFile() {
+	local MONITOR=${1}
+	local PIPE_LINE=${2}
+	local TEXT=${3}
+	local PIPE_FILE=$(getPipeFilePath ${MONITOR})
+	sed -i "${PIPE_LINE}s/.*/${TEXT}/" ${PIPE_FILE}
+}
 
-blue_color='#268BD2'
-white_color='#FFFFFF'
-bg_color='#073642'
-fg_color='#657B83'
+getPipeFilePath() {
+	local MONITOR=${1}
+	echo "${PIPE_FILE_DIR}dzenbarpipe_${MONITOR}"
+}
 
-normal_color='^fg()'
-gray_color='^fg(#839496)'
-clear_color='^fg()'
-
-dzen_x=0
-dzen_y=1060
-dzen_height=20
-dzen_width=1920
-dzen_font='-*-terminus-medium-r-*-*-16-*-*-*-*-*-*-*'
-
-# functions
 icon() {
-    echo -n "^fg($white_color)^i($icon_path/$1.xbm)^fg()"
+	local ICON=${1}
+	echo -n "^i(${ICON_PATH}${ICON}.xbm)"
 }
 
-text() {
-    echo -n "${gray_color}${1}${clear_color}"
+iconColor() {
+	local ICON=${1}
+	local COLOR="${2:-$ICON_COLOR}"
+	echo -n "^fg(${COLOR})$(icon ${ICON})^fg()"
 }
 
-decor_blue() {
-    echo -n "^bg($blue_color)^fg($bg_color) $1 ^bg()^fg()"
+textColor() {
+	local TEXT=${1}
+	local COLOR=${2:-$TEXT_COLOR}
+	echo -n "^fg(${COLOR})${TEXT}^fg()"
 }

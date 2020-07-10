@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+. .dzenbarrc
+
+MONITOR=${1}
+PIPE_LINE=${2}
+
+while true; do
+	volume=$(amixer get ${VOLUME_MIXER} | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')
+	volume_on=$(amixer get ${VOLUME_MIXER} | sed -ne 's/.*\ \[\([^]]*\).*/\1/p')
+
+	if [[ "${volume_on}" = "on" ]]; then
+		output=" $(iconColor 'volume')"
+	else
+		output=" $(iconColor 'volume-mute')"
+	fi
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output} ${volume}%"
+	sleep 5
+done

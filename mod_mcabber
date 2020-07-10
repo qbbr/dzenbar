@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+. .dzenbarrc
+
+MONITOR=${1}
+PIPE_LINE=${2}
+
+while true; do
+	if [[ -f ${MCABBER_STATE} ]]; then
+		count=$(textColor $(cat ${MCABBER_STATE} | wc -l))
+	else
+		count="0"
+	fi
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mail') ${count}"
+	sleep 2
+done

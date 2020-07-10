@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+. .dzenbarrc
+
+MONITOR=${1}
+PIPE_LINE=${2}
+
+while true; do
+	count=$(ls -1 ${MAIL_DIR} | wc -l)
+	if [[ "$${count}" = 0 ]]; then
+		output="0"
+	else
+		output=$(textColor ${count})
+	fi
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mail') ${output}"
+	sleep 10
+done

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+. .dzenbarrc
+
+MONITOR=${1}
+PIPE_LINE=${2}
+
+while true; do
+	output=''
+	cache=$(sensors)
+
+	count=${#SENSORS[@]}
+	i=0
+	let "count = ${count} - 1"
+	for key in ${!SENSORS[@]}; do
+		output="${output}$(textColor ${key})"
+		_temp=$(echo "${cache}" | sed "${SENSORS[${key}]}!D" | sed -ne 's/[^:]*: \+[-+]\([0-9]\+\).*/\1/p')
+		output="${output} ${_temp}°C"
+		if [ "${i}" != "${count}" ]; then
+			output="${output}$(textColor ', ')"
+		fi
+		let "i = ${i} + 1"
+	done
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'temp') ${output}"
+	sleep 5
+done

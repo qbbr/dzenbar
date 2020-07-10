@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+. .dzenbarrc
+
+MONITOR=${1}
+PIPE_LINE=${2}
+
+while true; do
+	output=" $(iconColor 'filesystem') "
+	cache=$(df -h)
+
+	count=${#FILESYSTEM_DISK_LIST[@]}
+	((--count))
+	i=0
+
+	for key in ${!FILESYSTEM_DISK_LIST[@]}; do
+		output="${output}$(textColor ${key})"
+		fs_dfc=$(echo "${cache}" | grep "${FILESYSTEM_DISK_LIST[${key}]}")
+
+		output="${output} $(echo ${fs_dfc} | awk '{ print $5 }')"
+		output="${output} $(textColor '(')"
+		output="${output}$(echo ${fs_dfc} | awk '{ print $4 }')"
+		output="${output}$(textColor ')')"
+
+		if [[ "${i}" != "${count}" ]]; then
+			output="${output}$(textColor ', ')"
+		fi
+
+		((i++))
+	done
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
+	sleep 60
+done

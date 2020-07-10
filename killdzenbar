@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+. .dzenbarrc
+
+$(kill $(cat ${PIDS_FILE}))

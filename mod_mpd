@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+. .dzenbarrc
+
+MONITOR=${1}
+PIPE_LINE=${2}
+
+while true; do
+	if [ "$(mpc | head -c 6)" = "volume" ]; then
+		output="[stoped]"
+	elif [ "$(mpc | sed -n '2p' | head -c 8)" = "[paused]" ]; then
+		output="[paused]"
+	else
+		output=$(mpc | head -n 1)
+	fi
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mpd') ${output}"
+	sleep 10
+done
