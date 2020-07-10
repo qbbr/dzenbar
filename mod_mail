@@ -7,7 +7,7 @@ PIPE_LINE=${2}
 
 while true; do
 	count=$(ls -1 ${MAIL_DIR} | wc -l)
-	if [[ "$${count}" = 0 ]]; then
+	if [[ "${count}" = 0 ]]; then
 		output="0"
 	else
 		output=$(textColor ${count})
