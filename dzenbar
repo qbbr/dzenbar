@@ -33,5 +33,3 @@ for ((MONITOR = 0; MONITOR < ${#SCRPTS[@]}; MONITOR++)); do
 	(while true; do CONTENT=$(sed -e ':a' -e 'N' -e '$!ba' -e 's/\n//g' ${PIPE_FILE}); echo -e ${CONTENT}; sleep 1; done) | dzen2 -xs $xs -e 'button3=;' -w $WIDTH -h $HEIGHT -x $X -y $Y -fn $FONT -bg $BG_COLOR -fg $FG_COLOR -p -title-name dzenbar &
 	echo $! >> ${PIDS_FILE}
 done
-
-#echo -e "$(iconColor \\uf2c8) $(textColor 'temperature') $(iconColor \\uf240) bat $(iconColor \\uf1c0) storage $(iconColor \\uf001) mpd_state" | dzen2 -e 'button3=;' -w $WIDTH -h $HEIGHT -x $X -y $Y -fn $FONT -bg $BG_COLOR -fg $FG_COLOR -p -title-name dzenbar2
