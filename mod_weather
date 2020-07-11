@@ -7,26 +7,29 @@ PIPE_LINE=${2}
 
 while true; do
 	cache='/tmp/weather.cache'
-	weather UIII -q -m > ${cache}
+	weather UIII -q -m --no-cache-data > ${cache} 2> /dev/null
+	if [[ $? == 0 ]]; then
+		w_temp=$(cat ${cache} | awk '/Temperature/ {print $2}')
+		w_humidity=$(cat ${cache} | awk '/Humidity/ {print $3}')
+		w_sky=""
+		#w_sky=$(cat ${cache} | awk '/Sky conditions/ {for(i=3;i<=NF;i++) print $i}' | sed ':a;N;$!ba;s/\n/ /g')
+		#
+		#if [[ -n ${w_sky} ]]; then
+		#    w_sky="${w_sky}, "
+		#fi
 
-	w_temp=$(cat ${cache} | awk '/Temperature/ {print $2}')
-	w_humidity=$(cat ${cache} | awk '/Humidity/ {print $3}')
-	w_sky=""
-	#w_sky=$(cat ${cache} | awk '/Sky conditions/ {for(i=3;i<=NF;i++) print $i}' | sed ':a;N;$!ba;s/\n/ /g')
-    #
-	#if [[ -n ${w_sky} ]]; then
-	#    w_sky="${w_sky}, "
-	#fi
+		w_wind=$(cat ${cache} | awk -F KPH '/Wind/ {print $1}' | awk '{print $NF}')
 
-	w_wind=$(cat ${cache} | awk -F KPH '/Wind/ {print $1}' | awk '{print $NF}')
+		if [[ "${w_wind}" =~ ^[0-9]+$ ]]; then
+			w_wind="${w_wind} kph, "
+		elif [[ -n ${w_wind} ]]; then
+			w_wind="${w_wind,,}, "
+		fi
 
-	if [[ "${w_wind}" =~ ^[0-9]+$ ]]; then
-		w_wind="${w_wind} kph, "
-	elif [[ -n ${w_wind} ]]; then
-		w_wind="${w_wind,,}, "
+		output=" $(iconColor 'weather') ${w_wind}$(textColor 't:') ${w_temp}°C$(textColor ', h:') ${w_humidity}"
+		putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
+		sleep 30m
+	else
+		sleep 2m
 	fi
-
-	output=" $(iconColor 'weather') ${w_wind}$(textColor 't:') ${w_temp}°C$(textColor ', h:') ${w_humidity}"
-	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
-	sleep 30m
 done
