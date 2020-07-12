@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # available scrpts (mod_*):
-#	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather
+#	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather, ping
 
 SCRPTS=(
 	[0]="cpu memory sensors filesystem battery network volume weather ping"
