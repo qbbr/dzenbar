@@ -8,7 +8,7 @@ PIPE_LINE=${2}
 while true; do
 	output=$(ping -c 3 ${PING_DESTINATION} 2> /dev/null | awk -F '/' 'END {printf "%d", $5}')
 
-	if [[ ! -z "${output}" ]]; then
+	if [[ "${output}" != "0" ]]; then
 		output=" $(iconColor 'ping') ${output} $(textColor 'ms')"
 	fi
 
