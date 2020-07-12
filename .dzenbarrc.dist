@@ -4,7 +4,7 @@
 #	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather
 
 SCRPTS=(
-	[0]="cpu memory sensors filesystem battery network volume weather"
+	[0]="cpu memory sensors filesystem battery network volume weather ping"
 )
 
 # for multiple monitors
@@ -27,6 +27,8 @@ VOLUME_MIXER="Master"
 MAIL_DIR="${HOME}/Mail/GMail/INBOX/new/"
 # mod_mcabber
 MCABBER_STATE="${HOME}/.mcabber/mcabber.state"
+# mod_ping
+PING_DESTINATION="1.1.1.1"
 
 # xdpyinfo | grep dimensions
 WIDTH=1366
