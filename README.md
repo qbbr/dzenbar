@@ -53,3 +53,4 @@ Mods
  * mpd (mpc)
  * mcabber msg counter (statefile)
  * email counter
+ * ping
