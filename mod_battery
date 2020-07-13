@@ -6,8 +6,18 @@ MONITOR=${1}
 PIPE_LINE=${2}
 
 while true; do
-	OUTPUT=" $(iconColor 'battery') $(acpi -b | cut -d ' ' -f 4 | tr -d [,])"
+	CACHE=$(acpi -b)
+	STATUS=$(echo ${CACHE} | cut -d ' ' -f 3 | tr -d [,])
+	PERCENT=$(echo ${CACHE} | cut -d ' ' -f 4 | tr -d [,])
 
-	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${OUTPUT}"
+	if [[ "${STATUS}" = "Discharging" ]]; then
+		STATUS=$(textColor "[-]")
+	elif [[ "${STATUS}" = "Charging" ]]; then
+		STATUS=$(textColor "[+]")
+	else
+		STATUS="" # Full
+	fi
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'battery') ${PERCENT} ${STATUS}"
 	sleep 5m
 done
