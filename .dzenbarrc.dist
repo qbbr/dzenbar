@@ -4,7 +4,7 @@
 #	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather, ping
 
 SCRPTS=(
-	[0]="cpu memory sensors filesystem battery network volume weather ping"
+	[0]="cpu memory sensors filesystem battery network volume mail weather ping"
 )
 
 # for multiple monitors
@@ -24,7 +24,7 @@ NETWORK_INTERFACE="wlp2s0"
 # mod_volume
 VOLUME_MIXER="Master"
 # mod_mail
-MAIL_DIR="${HOME}/Mail/GMail/INBOX/new/"
+MAIL_DIR="${HOME}/Mail"
 # mod_mcabber
 MCABBER_STATE="${HOME}/.mcabber/mcabber.state"
 # mod_ping

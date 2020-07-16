@@ -6,7 +6,8 @@ MONITOR=${1}
 PIPE_LINE=${2}
 
 while true; do
-	count=$(ls -1 ${MAIL_DIR} | wc -l)
+	count=$(find ${MAIL_DIR}/*/INBOX/new/ -type f | wc -l)
+
 	if [[ "${count}" = 0 ]]; then
 		output="0"
 	else
@@ -14,5 +15,5 @@ while true; do
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mail') ${output}"
-	sleep 10
+	sleep 30
 done

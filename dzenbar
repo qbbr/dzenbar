@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# ./dzenbar
+#
+# deps: dzen
+# cfg: .dzenbarrc
+# author: @qbbr
+
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
 . .dzenbarrc
