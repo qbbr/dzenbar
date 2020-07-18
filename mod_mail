@@ -15,5 +15,5 @@ while true; do
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mail') ${output}"
-	sleep 30
+	sleep ${MAIL_UPDATE}
 done

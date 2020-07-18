@@ -4,7 +4,7 @@
 #	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather, ping
 
 SCRPTS=(
-	[0]="cpu memory sensors filesystem battery network volume mail weather ping"
+	[0]="cpu memory sensors filesystem battery network volume mail ping"
 )
 
 # for multiple monitors
@@ -13,25 +13,43 @@ SCRPTS=(
 #	[1]="mcabber weather volume mpd"
 #)
 
-# mod_sensors
-declare -A SENSORS
-SENSORS=(["CPU:"]=12 ["T2:"]=8) # line of `sensors`
+# mod_battery
+BATTERY_UPDATE=5m
+# mod_cpu
+CPU_UPDATE=1
 # mod_filesystem
 declare -A FILESYSTEM_DISK_LIST
 FILESYSTEM_DISK_LIST=(["root:"]="/sda5") # grep of `df`
-# mod_network
-NETWORK_INTERFACE="wlp2s0"
-# mod_volume
-VOLUME_MIXER="Master"
+FILESYSTEM_UPDATE=2m
 # mod_mail
 MAIL_DIR="${HOME}/Mail"
+MAIL_UPDATE=30
 # mod_mcabber
 MCABBER_STATE="${HOME}/.mcabber/mcabber.state"
+MCABBER_UPDATE=10
+# mod_memory
+MEMORY_UPDATE=5
+# mod_mpd
+MPD_UPDATE=10
+# mod_network
+NETWORK_INTERFACE="wlp2s0"
+NETWORK_UPDATE=2
 # mod_ping
 PING_DESTINATION="1.1.1.1"
+PING_UPDATE=30
+# mod_sensors
+declare -A SENSORS
+SENSORS=(["CPU:"]=12 ["T2:"]=8) # line of `sensors`
+SENSORS_UPDATE=2m
+# mod_volume
+VOLUME_MIXER="Master"
+VOLUME_UPDATE=5
+# mod_weather
+WEATHER_SEARCH="UIII"
+WEATHER_UPDATE=30m
 
-# xdpyinfo | grep dimensions
-WIDTH=1366
+#WIDTH=1366
+WIDTH=$(xdpyinfo | grep dimensions | cut -d ' ' -f7 | cut -d 'x' -f 1)
 HEIGHT=20
 X=0
 Y=748

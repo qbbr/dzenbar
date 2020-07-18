@@ -15,5 +15,5 @@ while true; do
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
-	sleep 30
+	sleep ${PING_UPDATE}
 done

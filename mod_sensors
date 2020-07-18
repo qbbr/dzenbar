@@ -23,5 +23,5 @@ while true; do
 	done
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'temp') ${output}"
-	sleep 5
+	sleep ${SENSORS_UPDATE}
 done

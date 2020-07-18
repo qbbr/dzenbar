@@ -52,5 +52,5 @@ while true; do
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
 
 	stat_before=${stat_after}
-	sleep 1
+	sleep ${CPU_UPDATE}
 done

@@ -16,5 +16,5 @@ while true; do
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output} ${volume}%"
-	sleep 5
+	sleep ${VOLUME_UPDATE}
 done

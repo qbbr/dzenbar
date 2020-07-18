@@ -13,5 +13,5 @@ while true; do
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mail') ${count}"
-	sleep 2
+	sleep ${MCABBER_UPDATE}
 done

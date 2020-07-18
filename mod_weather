@@ -7,7 +7,7 @@ PIPE_LINE=${2}
 
 while true; do
 	cache='/tmp/weather.cache'
-	weather UIII -q -m --no-cache-data > ${cache} 2> /dev/null
+	weather ${WEATHER_SEARCH} -q -m --no-cache-data > ${cache} 2> /dev/null
 	if [[ $? == 0 ]]; then
 		w_temp=$(cat ${cache} | awk '/Temperature/ {print $2}')
 		w_humidity=$(cat ${cache} | awk '/Humidity/ {print $3}')
@@ -28,8 +28,8 @@ while true; do
 
 		output=" $(iconColor 'weather') ${w_wind}$(textColor 't:') ${w_temp}°C$(textColor ', h:') ${w_humidity}"
 		putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
-		sleep 30m
+		sleep ${WEATHER_UPDATE}
 	else
-		sleep 2m
+		sleep 1m
 	fi
 done

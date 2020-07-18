@@ -30,5 +30,5 @@ while true; do
 	done
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
-	sleep 60
+	sleep ${FILESYSTEM_UPDATE}
 done

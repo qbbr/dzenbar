@@ -19,5 +19,5 @@ while true; do
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'battery') ${PERCENT} ${STATUS}"
-	sleep 5m
+	sleep ${BATTERY_UPDATE}
 done

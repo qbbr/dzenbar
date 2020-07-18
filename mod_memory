@@ -13,5 +13,5 @@ while true; do
 	output=" $(iconColor 'memory') ${mem_usage_percent}% $(textColor '(')"${mem_usage_mb}"M$(textColor ')')"
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
-	sleep 5
+	sleep ${MEMORY_UPDATE}
 done

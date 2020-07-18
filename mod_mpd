@@ -15,5 +15,5 @@ while true; do
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mpd') ${output}"
-	sleep 10
+	sleep ${MPD_UPDATE}
 done

@@ -5,8 +5,6 @@
 MONITOR=${1}
 PIPE_LINE=${2}
 
-SLEEP=2
-
 # here we remember the previous rx/tx counts
 rxb=$(cat /sys/class/net/${NETWORK_INTERFACE}/statistics/rx_bytes)
 txb=$(cat /sys/class/net/${NETWORK_INTERFACE}/statistics/tx_bytes)
@@ -17,8 +15,8 @@ while true; do
 	txbn=$(cat /sys/class/net/${NETWORK_INTERFACE}/statistics/tx_bytes)
 
 	# calculate rates
-	rxr=$(echo "(${rxbn} - ${rxb}) / 1024 / ${SLEEP}" | bc -l | xargs printf "%.2f")
-	txr=$(echo "(${txbn} - ${txb}) / 1024 / ${SLEEP}" | bc -l | xargs printf "%.2f")
+	rxr=$(echo "(${rxbn} - ${rxb}) / 1024 / ${NETWORK_UPDATE}" | bc -l | xargs printf "%.2f")
+	txr=$(echo "(${txbn} - ${txb}) / 1024 / ${NETWORK_UPDATE}" | bc -l | xargs printf "%.2f")
 
 	# reset old rates
 	rxb=${rxbn}
@@ -27,5 +25,5 @@ while true; do
 	output=" $(iconColor 'wired') $(iconColor 'down' '#859900') ${rxr} kBs $(iconColor 'up' '#B58900') ${txr} kBs"
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
-	sleep $SLEEP
+	sleep ${NETWORK_UPDATE}
 done
