@@ -32,7 +32,10 @@ MEMORY_UPDATE=5
 # mod_mpd
 MPD_UPDATE=10
 # mod_network
-NETWORK_INTERFACE="wlp2s0"
+#NETWORK_INTERFACE="eth0"
+# see: https://github.com/qbbr/dotfiles/blob/master/bin/get-active-network-interface
+NETWORK_INTERFACE=$(get-active-network-interface)
+NETWORK_INTERFACE=${NETWORK_INTERFACE:-enp1s0}
 NETWORK_UPDATE=2
 # mod_ping
 PING_DESTINATION="1.1.1.1"
