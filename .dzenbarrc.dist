@@ -14,7 +14,8 @@ SCRPTS=(
 #)
 
 # mod_battery
-BATTERY_UPDATE=5m
+BATTERY="/sys/class/power_supply/BAT0"
+BATTERY_UPDATE=1m
 # mod_cpu
 CPU_UPDATE=1
 # mod_filesystem
@@ -33,9 +34,11 @@ MEMORY_UPDATE=5
 MPD_UPDATE=10
 # mod_network
 #NETWORK_INTERFACE="eth0"
-# see: https://github.com/qbbr/dotfiles/blob/master/bin/get-active-network-interface
-NETWORK_INTERFACE=$(get-active-network-interface)
-NETWORK_INTERFACE=${NETWORK_INTERFACE:-enp1s0}
+networkInterfaceFallback() {
+	# see: https://github.com/qbbr/dotfiles/blob/master/bin/get-active-network-interface
+	get-active-network-interface enp1s0
+}
+NETWORK_INTERFACE=$(networkInterfaceFallback)
 NETWORK_UPDATE=2
 # mod_ping
 PING_DESTINATION="1.1.1.1"

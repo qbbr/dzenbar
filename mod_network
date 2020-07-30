@@ -24,6 +24,8 @@ while true; do
 
 	output=" $(iconColor 'wired') $(iconColor 'down' '#859900') ${rxr} kBs $(iconColor 'up' '#B58900') ${txr} kBs"
 
+	NETWORK_INTERFACE=$(networkInterfaceFallback)
+
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
 	sleep ${NETWORK_UPDATE}
 done

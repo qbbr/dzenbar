@@ -6,18 +6,17 @@ MONITOR=${1}
 PIPE_LINE=${2}
 
 while true; do
-	CACHE=$(acpi -b)
-	STATUS=$(echo ${CACHE} | cut -d ' ' -f 3 | tr -d [,])
-	PERCENT=$(echo ${CACHE} | cut -d ' ' -f 4 | tr -d [,])
+	capacity="$(cat "${BATTERY}/capacity")"
+	status=$(sed "s/Discharging/-/;s/Charging/+/;s/Not charging/n/;s/Unknown/u/;s/Full//" "${BATTERY}/status")
 
-	if [[ "${STATUS}" = "Discharging" ]]; then
-		STATUS=$(textColor "[-]")
-	elif [[ "${STATUS}" = "Charging" ]]; then
-		STATUS=$(textColor "[+]")
-	else
-		STATUS="" # Full
+	if [[ "$capacity" -le 25 ]] && [[ "$status" == "-" ]]; then
+		 status="!${status}"
 	fi
 
-	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'battery') ${PERCENT} ${STATUS}"
+	if [[ "${status}" != "" ]]; then
+		status="[${status}] "
+	fi
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'battery') ${status}${capacity}%"
 	sleep ${BATTERY_UPDATE}
 done

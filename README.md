@@ -48,7 +48,7 @@ Mods
  * fs percent usage / free
  * network interface down/up speed in kB/s
  * weather (weather-util)
- * battery (acpi)
+ * battery
  * volume (amixer)
  * mpd (mpc)
  * mcabber msg counter (statefile)
