@@ -5,26 +5,30 @@
 MONITOR=${1}
 PIPE_LINE=${2}
 
-# here we remember the previous rx/tx counts
-rxb=$(cat /sys/class/net/${NETWORK_INTERFACE}/statistics/rx_bytes)
-txb=$(cat /sys/class/net/${NETWORK_INTERFACE}/statistics/tx_bytes)
+calculate() {
+	local sum=0
+
+	for arg; do
+		read -r i < "${arg}"
+		sum=$(( sum + i ))
+	done
+
+	cache="/tmp/cache_${1##*/}"
+	[[ -f "${cache}" ]] && read -r old < "${cache}" || old=0
+	echo "${sum}" > "${cache}"
+
+	echo $(( sum - old ))
+}
+
+# 1st call for cache
+rxb=$(calculate /sys/class/net/[ew]*/statistics/rx_bytes)
+txb=$(calculate /sys/class/net/[ew]*/statistics/tx_bytes)
 
 while true; do
-	# get new rx/tx counts
-	rxbn=$(cat /sys/class/net/${NETWORK_INTERFACE}/statistics/rx_bytes)
-	txbn=$(cat /sys/class/net/${NETWORK_INTERFACE}/statistics/tx_bytes)
+	rxb=$(echo "$(calculate /sys/class/net/[ew]*/statistics/rx_bytes) / 1024 / ${NETWORK_UPDATE}" | bc -l | xargs printf "%.2f")
+	txb=$(echo "$(calculate /sys/class/net/[ew]*/statistics/tx_bytes) / 1024 / ${NETWORK_UPDATE}" | bc -l | xargs printf "%.2f")
 
-	# calculate rates
-	rxr=$(echo "(${rxbn} - ${rxb}) / 1024 / ${NETWORK_UPDATE}" | bc -l | xargs printf "%.2f")
-	txr=$(echo "(${txbn} - ${txb}) / 1024 / ${NETWORK_UPDATE}" | bc -l | xargs printf "%.2f")
-
-	# reset old rates
-	rxb=${rxbn}
-	txb=${txbn}
-
-	output=" $(iconColor 'wired') $(iconColor 'down' '#859900') ${rxr} kBs $(iconColor 'up' '#B58900') ${txr} kBs"
-
-	NETWORK_INTERFACE=$(networkInterfaceFallback)
+	output=" $(iconColor 'wired') $(iconColor 'down' '#859900') ${rxb} kBs $(iconColor 'up' '#B58900') ${txb} kBs"
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
 	sleep ${NETWORK_UPDATE}

@@ -33,12 +33,6 @@ MEMORY_UPDATE=5
 # mod_mpd
 MPD_UPDATE=10
 # mod_network
-#NETWORK_INTERFACE="eth0"
-networkInterfaceFallback() {
-	# see: https://github.com/qbbr/dotfiles/blob/master/bin/get-active-network-interface
-	get-active-network-interface enp1s0
-}
-NETWORK_INTERFACE=$(networkInterfaceFallback)
 NETWORK_UPDATE=2
 # mod_ping
 PING_DESTINATION="1.1.1.1"
