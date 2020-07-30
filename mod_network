@@ -28,7 +28,15 @@ while true; do
 	rxb=$(echo "$(calculate /sys/class/net/[ew]*/statistics/rx_bytes) / 1024 / ${NETWORK_UPDATE}" | bc -l | xargs printf "%.2f")
 	txb=$(echo "$(calculate /sys/class/net/[ew]*/statistics/tx_bytes) / 1024 / ${NETWORK_UPDATE}" | bc -l | xargs printf "%.2f")
 
-	output=" $(iconColor 'wired') $(iconColor 'down' '#859900') ${rxb} kBs $(iconColor 'up' '#B58900') ${txb} kBs"
+	# wireless check
+	wstatus="$(cat /sys/class/net/w*/operstate 2>/dev/null)"
+	if [[ "$wstatus" == "up" ]]; then
+		icon="$(iconColor 'wireless') $(awk '/^\s*w/ { print int($3 * 100 / 70) }' /proc/net/wireless)%"
+	else
+		icon="$(iconColor 'wired')"
+	fi
+
+	output=" ${icon} $(iconColor 'down' '#859900') ${rxb} kBs $(iconColor 'up' '#B58900') ${txb} kBs"
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
 	sleep ${NETWORK_UPDATE}
