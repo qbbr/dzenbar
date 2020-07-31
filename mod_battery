@@ -5,23 +5,21 @@
 MONITOR=${1}
 PIPE_LINE=${2}
 
+prev_status=""
+
 while true; do
 	capacity="$(cat "${BATTERY}/capacity")"
 	status=$(sed "s/Discharging/-/;s/Charging/+/;s/Not charging/n/;s/Unknown/u/;s/Full//" "${BATTERY}/status")
 
-	if [[ "${BATTERY_BACKLIGHT_CONTROL_ENABLED}" == "1" ]]; then
-		current_brightness=$(backlight-brightness-control --get)
-
-		if [[ "${status}" == "-" ]]; then
-			if [[ "${current_brightness}" != "${BATTERY_BACKLIGHT_DISCHARGING}" ]]; then
-				backlight-brightness-control --set ${BATTERY_BACKLIGHT_DISCHARGING} 2&> /dev/null
-			fi
-		else
-			if [[ "${current_brightness}" != "${BATTERY_BACKLIGHT_NORMAL}" ]]; then
-				backlight-brightness-control --set ${BATTERY_BACKLIGHT_NORMAL} 2&> /dev/null
-			fi
+	if [[ "${status}" != "${prev_status}" ]]; then
+		if [[ "$(type -t BATTERY__callback_on_battery)" == "function" ]] && [[ "${status}" == "-" ]]; then
+			BATTERY__callback_on_battery
+		elif [[ "$(type -t BATTERY__callback_on_cable)" == "function" ]]; then
+			BATTERY__callback_on_cable
 		fi
 	fi
+
+	prev_status="${status}"
 
 	if [[ "${capacity}" -le 25 ]] && [[ "${status}" == "-" ]]; then
 		 status="!${status}"

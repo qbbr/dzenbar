@@ -15,10 +15,16 @@ SCRPTS=(
 
 # mod_battery
 BATTERY="/sys/class/power_supply/BAT0"
-BATTERY_BACKLIGHT_CONTROL_ENABLED=1 # optional, see `backlight-brightness-control`
-BATTERY_BACKLIGHT_DISCHARGING=6
-BATTERY_BACKLIGHT_NORMAL=8
-BATTERY_UPDATE=30
+# callback functions; comment for disable
+BATTERY__callback_on_battery() {
+	notify-send "power" "on battery"
+	backlight-brightness-control --set 6 > /dev/null
+}
+BATTERY__callback_on_cable() {
+	notify-send "power" "on cable"
+	backlight-brightness-control --set 8 > /dev/null
+}
+BATTERY_UPDATE=10
 # mod_cpu
 CPU_UPDATE=1
 # mod_filesystem
