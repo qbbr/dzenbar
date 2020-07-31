@@ -19,8 +19,8 @@ cd "$(dirname "${SOURCE}")"
 . .dzenbarrc
 
 preparePipeFile() {
-	local MONITOR=${1}
-	local PIPE_FILE=$(getPipeFilePath ${MONITOR})
+	// $1 - monitor
+	local PIPE_FILE=$(getPipeFilePath $1)
 	local MAX_LINES=32
 	# erase pipe file
 	> ${PIPE_FILE}
@@ -32,18 +32,18 @@ preparePipeFile() {
 
 echo "" > ${PIDS_FILE}
 
-for ((MONITOR = 0; MONITOR < ${#SCRPTS[@]}; MONITOR++)); do
-	PIPE_FILE=$(getPipeFilePath ${MONITOR})
-	preparePipeFile "${MONITOR}"
+for ((monitor = 0; monitor < ${#SCRPTS[@]}; monitor++)); do
+	PIPE_FILE=$(getPipeFilePath ${monitor})
+	preparePipeFile "${monitor}"
 
-	LINE=1
-	for SCRIPT in ${SCRPTS[${MONITOR}]}; do
-		. ./mod_${SCRIPT} ${MONITOR} ${LINE} &
+	line=1
+	for SCRIPT in ${SCRPTS[${monitor}]}; do
+		. ./mod_${SCRIPT} ${monitor} ${line} &
 		echo $! >> ${PIDS_FILE}
-		((++LINE))
+		((++line))
 	done
 
-	let "xs = MONITOR + 1"
+	((xs = monitor + 1))
 	(while true; do CONTENT=$(sed -e ':a' -e 'N' -e '$!ba' -e 's/\n//g' ${PIPE_FILE}); echo -e ${CONTENT}; sleep 1; done) | dzen2 -xs $xs -e 'button3=;' -w $WIDTH -h $HEIGHT -x $X -y $Y -fn $FONT -bg $BG_COLOR -fg $FG_COLOR -p -title-name dzenbar &
 	echo $! >> ${PIDS_FILE}
 done
