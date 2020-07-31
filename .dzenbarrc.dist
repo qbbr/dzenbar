@@ -4,7 +4,7 @@
 #	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather, ping
 
 SCRPTS=(
-	[0]="cpu memory sensors filesystem battery network volume mail ping"
+	[0]="cpu memory sensors filesystem battery volume network mail ping"
 )
 
 # for multiple monitors
@@ -15,7 +15,10 @@ SCRPTS=(
 
 # mod_battery
 BATTERY="/sys/class/power_supply/BAT0"
-BATTERY_UPDATE=1m
+BATTERY_BACKLIGHT_CONTROL_ENABLED=1 # optional, see `backlight-brightness-control`
+BATTERY_BACKLIGHT_DISCHARGING=6
+BATTERY_BACKLIGHT_NORMAL=8
+BATTERY_UPDATE=30
 # mod_cpu
 CPU_UPDATE=1
 # mod_filesystem
