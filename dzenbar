@@ -19,7 +19,7 @@ cd "$(dirname "${SOURCE}")"
 . .dzenbarrc
 
 preparePipeFile() {
-	// $1 - monitor
+	# $1 - monitor
 	local PIPE_FILE=$(getPipeFilePath $1)
 	local MAX_LINES=32
 	# erase pipe file
