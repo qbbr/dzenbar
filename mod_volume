@@ -7,7 +7,7 @@ PIPE_LINE=${2}
 
 while true; do
 	volume=$(amixer get ${VOLUME_MIXER} | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')
-	volume_on=$(amixer get ${VOLUME_MIXER} | sed -ne 's/.*\ \[\([^]]*\).*/\1/p')
+	volume_on=$(amixer get ${VOLUME_MIXER} | sed -ne 's/.*\ \[\([^]]*\).*/\1/p' | head -n1)
 
 	if [[ "${volume_on}" = "on" ]]; then
 		output=" $(iconColor 'volume')"
