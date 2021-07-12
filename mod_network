@@ -36,7 +36,7 @@ while true; do
 		icon="$(iconColor 'wired')"
 	fi
 
-	output=" ${icon} $(iconColor 'down' '#859900') ${rxb} kBs $(iconColor 'up' '#B58900') ${txb} kBs"
+	output=" ${icon} $(iconColor 'down' '#859900') $(textColor "${rxb}")kBs $(iconColor 'up' '#B58900') $(textColor "${txb}")kBs"
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
 	sleep ${NETWORK_UPDATE}

@@ -41,10 +41,10 @@ while true; do
 
 	let "last = ${cpu_cores} - 1"
 	for ((i=0; i < ${cpu_cores}; i++)); do
-		output="${output}$(getCoreLoadPercent ${i})%"
+		output="${output}$(textColor "$(getCoreLoadPercent ${i})")%"
 
 		if [[ "${i}" != "${last}" ]]; then
-			output="${output} $(textColor '\/') "
+			output="${output} \/ "
 		fi
 	done
 

@@ -14,13 +14,13 @@ while true; do
 	i=0
 
 	for key in ${!FILESYSTEM_DISK_LIST[@]}; do
-		output="${output}$(textColor ${key})"
+		output="${output}${key}"
 		fs_dfc=$(echo "${cache}" | grep "${FILESYSTEM_DISK_LIST[${key}]}")
 
-		output="${output} $(echo ${fs_dfc} | awk '{ print $5 }')"
-		output="${output} $(textColor '(')"
+		output="${output} $(textColor "$(echo ${fs_dfc} | awk '{ print $5 }')")"
+		output="${output} ("
 		output="${output}$(echo ${fs_dfc} | awk '{ print $4 }')"
-		output="${output}$(textColor ')')"
+		output="${output})"
 
 		if [[ "${i}" != "${count}" ]]; then
 			output="${output}$(textColor ', ')"

@@ -13,9 +13,9 @@ while true; do
 	i=0
 	let "count = ${count} - 1"
 	for key in ${!SENSORS[@]}; do
-		output="${output}$(textColor ${key})"
+		output="${output}${key}"
 		_temp=$(echo "${cache}" | sed "${SENSORS[${key}]}!D" | sed -ne 's/[^:]*: \+[-+]\([0-9]\+\).*/\1/p')
-		output="${output} ${_temp}°C"
+		output="${output} $(textColor "${_temp}")°C"
 		if [ "${i}" != "${count}" ]; then
 			output="${output}$(textColor ', ')"
 		fi

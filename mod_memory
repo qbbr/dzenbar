@@ -10,7 +10,7 @@ while true; do
 	mem_usage_percent=$(echo -e "$cache" | awk '/Mem:/ {print int($3 * 100 / $2)}')
 	mem_usage_mb=$(echo -e "$cache" | awk '/Mem:/ {print $3}')
 
-	output=" $(iconColor 'memory') ${mem_usage_percent}% $(textColor '(')"${mem_usage_mb}"M$(textColor ')')"
+	output=" $(iconColor 'memory') $(textColor "${mem_usage_percent}")% ("${mem_usage_mb}"M)"
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"
 	sleep ${MEMORY_UPDATE}

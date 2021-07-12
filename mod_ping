@@ -11,7 +11,7 @@ while true; do
 	if [[ "${output}" = "0" ]]; then
 		output=""
 	else
-		output=" $(iconColor 'ping') ${output} $(textColor 'ms')"
+		output=" $(iconColor 'ping') $(textColor "${output}")ms"
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output}"

@@ -15,6 +15,6 @@ while true; do
 		output=" $(iconColor 'volume-mute')"
 	fi
 
-	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output} ${volume}%"
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output} $(textColor "${volume}")%"
 	sleep ${VOLUME_UPDATE}
 done
