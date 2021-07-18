@@ -3,14 +3,15 @@
 # available scrpts (mod_*):
 #	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather, ping
 
+# for one monitor
 SCRPTS=(
 	[0]="cpu memory sensors filesystem battery volume network mail ping"
 )
 
 # for multiple monitors
 #SCRPTS=(
-#	[0]="cpu sensors memory filesystem network"
-#	[1]="mcabber weather volume mpd"
+#	[0]="sensors memory network ping"
+#	[1]="filesystem volume mpd"
 #)
 
 # mod_battery
@@ -29,7 +30,7 @@ BATTERY_UPDATE=10
 CPU_UPDATE=1
 # mod_filesystem
 declare -A FILESYSTEM_DISK_LIST
-FILESYSTEM_DISK_LIST=(["root:"]="/sda5") # grep of `df`
+FILESYSTEM_DISK_LIST=(["root:"]="/dev/nvme0n1p2" ["strg1:"]="/dev/sdb4") # grep of `df`
 FILESYSTEM_UPDATE=2m
 # mod_mail
 MAIL_DIR="${HOME}/Mail"
@@ -48,7 +49,7 @@ PING_DESTINATION="1.1.1.1"
 PING_UPDATE=30
 # mod_sensors
 declare -A SENSORS
-SENSORS=(["CPU:"]=12 ["T2:"]=8) # line of `sensors`
+SENSORS=(["CPU:"]=12 ["M2:"]=7 ["GPU:"]=3) # line of `sensors`
 SENSORS_UPDATE=2m
 # mod_volume
 VOLUME_MIXER="Master"
@@ -61,8 +62,9 @@ WEATHER_UPDATE=30m
 WIDTH=$(xdpyinfo | grep dimensions | cut -d ' ' -f7 | cut -d 'x' -f 1)
 HEIGHT=20
 X=0
-Y=748
-FONT="terminus-12"
+#Y=748
+Y=$(echo "$(xdpyinfo | grep dimensions | cut -d ' ' -f7 | cut -d 'x' -f 1) - ${HEIGHT}" | bc)
+FONT="Hack:size=11"
 BG_COLOR="#002B36"
 FG_COLOR="#657B83"
 ICON_PATH="xbm\/"
