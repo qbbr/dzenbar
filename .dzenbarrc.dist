@@ -64,7 +64,7 @@ HEIGHT=20
 X=0
 #Y=748
 Y=$(echo "$(xdpyinfo | grep dimensions | cut -d ' ' -f7 | cut -d 'x' -f 1) - ${HEIGHT}" | bc)
-FONT="Hack:size=11"
+FONT="Hack:size=10"
 BG_COLOR="#002B36"
 FG_COLOR="#657B83"
 ICON_PATH="xbm\/"
