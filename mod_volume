@@ -5,6 +5,10 @@
 MONITOR=${1}
 PIPE_LINE=${2}
 
+is_headphone_plugged() {
+	command -v pactl > /dev/null && pactl list sinks | grep 'analog-output-headphones' | grep -q 'not available' && echo '0' || echo '1'
+}
+
 while true; do
 	volume=$(amixer get ${VOLUME_MIXER} | tail -n1 | sed -r 's/.*\[(.*)%\].*/\1/')
 	volume_on=$(amixer get ${VOLUME_MIXER} | sed -ne 's/.*\ \[\([^]]*\).*/\1/p' | head -n1)
@@ -13,6 +17,10 @@ while true; do
 		output=" $(iconColor 'volume')"
 	else
 		output=" $(iconColor 'volume-mute')"
+	fi
+
+	if [[ "1" == "$(is_headphone_plugged)" ]]; then
+		output="${output} $(iconColor 'headphone' '#586e75')"
 	fi
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "${output} $(textColor "${volume}")%"
