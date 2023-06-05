@@ -9,10 +9,12 @@ while true; do
 	if [ "$(mpc | head -c 6)" = "volume" ]; then
 		output="[stoped]"
 	elif [ "$(mpc | sed -n '2p' | head -c 8)" = "[paused]" ]; then
-		output="[paused] $(mpc | head -n 1 | sed 's;/;\\/;g')"
+		output="[paused] $(mpc | head -n 1)"
 	else
-		output="[playing] $(textColor "$(mpc | head -n 1 | sed 's;/;\\/;g')")"
+		output="[playing] $(textColor "$(mpc | head -n 1)")"
 	fi
+
+	output="$(echo ${output} | sed 's;/;\\/;g' | sed 's;&;\\&;g')"
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mpd') ${output}"
 	
