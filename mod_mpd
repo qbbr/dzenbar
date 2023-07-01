@@ -7,7 +7,7 @@ PIPE_LINE=${2}
 
 while true; do
 	if [ "$(mpc | head -c 6)" = "volume" ]; then
-		output="[stoped]"
+		output="[stopped]"
 	elif [ "$(mpc | sed -n '2p' | head -c 8)" = "[paused]" ]; then
 		output="[paused] $(mpc | head -n 1)"
 	else
@@ -17,6 +17,6 @@ while true; do
 	output="$(echo ${output} | sed 's;/;\\/;g' | sed 's;&;\\&;g')"
 
 	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mpd') ${output}"
-	
-	sleep ${MPD_UPDATE}
+
+	sleep ${MUSIC_UPDATE}
 done

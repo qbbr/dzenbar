@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # available scrpts (mod_*):
-#	battery, cpu, filesystem, mail, mcabber, memory, mpd, network, sensors, volume, weather, ping
+#	battery, cpu, filesystem, mail, mcabber, memory, mpd, rhythmbox, network, sensors, volume, weather, ping
 
 # for one monitor
 SCRPTS=(
@@ -39,9 +39,9 @@ MAIL_UPDATE=30
 MCABBER_STATE="${HOME}/.mcabber/mcabber.state"
 MCABBER_UPDATE=10
 # mod_memory
-MEMORY_UPDATE=5
-# mod_mpd
-MPD_UPDATE=10
+MEMORY_UPDATE=10
+# mod_mpd, mod_rhythmbox
+MUSIC_UPDATE=5
 # mod_network
 NETWORK_UPDATE=2
 # mod_ping

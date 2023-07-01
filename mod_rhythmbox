@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# depends: qdbus
+
+. .dzenbarrc
+
+MONITOR=${1}
+PIPE_LINE=${2}
+
+while true; do
+	if rhythmbox-client --check-running; then
+		pstatus="$(qdbus org.mpris.MediaPlayer2.rhythmbox /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlaybackStatus | tr '[:upper:]' '[:lower:]')" # stopped|paused|playing
+		output="[${pstatus}]"
+		if [[ "${pstatus}" != "stopped" ]]; then
+			output="${output} $(textColor "$(rhythmbox-client --print-playing)")"
+		fi
+	else
+		output="[stopped]"
+	fi
+
+	output="$(echo ${output} | sed 's;/;\\/;g' | sed 's;&;\\&;g')"
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} " $(iconColor 'mpd') ${output}"
+
+	sleep ${MUSIC_UPDATE}
+done
