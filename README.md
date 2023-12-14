@@ -1,8 +1,6 @@
 dzenbar
 =======
 
-[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/badges/StandWithUkraine.svg)](https://github.com/vshymanskyy/StandWithUkraine/blob/main/docs/README.md)
-
 dzen2 bar \w multiple monitors support.
 
 ![qbbr-dzenbar](https://i.imgur.com/QQZwleh.png)
