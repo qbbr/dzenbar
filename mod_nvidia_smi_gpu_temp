@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+. .dzenbarrc
+
+MONITOR=${1}
+PIPE_LINE=${2}
+
+while true; do
+	output="$(textColor "$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)")°C"
+
+	putLineToPipeFile ${MONITOR} ${PIPE_LINE} "$(textColor ',') GPU: ${output}"
+	sleep ${SENSORS_UPDATE}
+done

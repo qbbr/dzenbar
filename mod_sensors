@@ -17,7 +17,7 @@ while true; do
 		_temp=$(echo "${cache}" | sed "${SENSORS[${key}]}!D" | sed -ne 's/[^:]*: \+[-+]\([0-9]\+\).*/\1/p')
 		output="${output} $(textColor "${_temp}")°C"
 		if [ "${i}" != "${count}" ]; then
-			output="${output}$(textColor ', ')"
+			output="${output}$(textColor ',') "
 		fi
 		let "i = ${i} + 1"
 	done
