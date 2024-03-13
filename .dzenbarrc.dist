@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 
 # available scrpts (mod_*):
-#	battery, cpu, filesystem, mail, mcabber, memory, mpd, rhythmbox, network, sensors, volume, weather, ping
+#	battery, cpu, filesystem, mail, mcabber, memory, mpd, rhythmbox, network, sensors, volume, weather, ping, mod_nvidia_smi_gpu_temp
 
 # for one monitor
 SCRPTS=(
 	[0]="cpu memory sensors filesystem battery volume network mail ping"
 )
 
-# for multiple monitors
+# for multiple monitors, where key is monitor number
 #SCRPTS=(
 #	[0]="sensors memory network ping"
-#	[1]="filesystem volume mpd"
+#	[3]="filesystem volume mpd"
 #)
 
 # mod_battery

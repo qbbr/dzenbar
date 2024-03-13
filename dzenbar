@@ -32,7 +32,7 @@ preparePipeFile() {
 
 echo "" > ${PIDS_FILE}
 
-for ((monitor = 0; monitor < ${#SCRPTS[@]}; monitor++)); do
+for monitor in ${!SCRPTS[@]}; do
 	PIPE_FILE=$(getPipeFilePath ${monitor})
 	preparePipeFile "${monitor}"
 
